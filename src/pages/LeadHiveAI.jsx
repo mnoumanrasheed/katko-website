@@ -83,7 +83,7 @@ export default function LeadHiveAI() {
     >
       {/* Hero Section — Premium Background Image */}
       <PageHero
-        imageSrc="/images/page_leadhive.jpg"
+        imageSrc="/images/page_leadhive-wide.png"
         imageAlt="LeadHive AI — Omnichannel Lead Qualification"
         eyebrow="Conversational AI Platform"
         eyebrowIcon={<Bot size={14} />}

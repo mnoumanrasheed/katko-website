@@ -67,7 +67,7 @@ export default function CustomerExperience() {
     >
       {/* Hero Section — Premium Background Image */}
       <PageHero
-        imageSrc="/images/page_cx.jpg"
+        imageSrc="/images/page_cx-wide.png"
         imageAlt="Katko Customer Experience Solutions"
         eyebrow="Customer Experience Design"
         eyebrowIcon={<Users size={14} />}
@@ -78,7 +78,7 @@ export default function CustomerExperience() {
         trustNote="Research-led design · Measurable CX outcomes"
       />
 
-      <section className="section section-bg-grey">
+      <section className="section section-bg-grey" id="capabilities">
         <Container>
           <SectionHeading
             centered

@@ -65,7 +65,7 @@ export default function AboutUs() {
     >
       {/* Hero Section — Premium Background Image */}
       <PageHero
-        imageSrc="/images/page_about.jpg"
+        imageSrc="/images/page_about-wide.png"
         imageAlt="Katko — South African AI and Technology Company"
         eyebrow="About Katko"
         eyebrowIcon={<Building2 size={14} />}

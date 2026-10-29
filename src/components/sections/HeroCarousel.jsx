@@ -16,9 +16,9 @@ import {
 import { usePrefersReducedMotion } from '../../hooks/usePrefersReducedMotion';
 
 const SLIDE_IMAGES = [
-  '/images/hero_nourdoc.png',
-  '/images/hero_leadhive.jpg',
-  '/images/hero_services.jpg',
+  '/images/hero_nourdoc-wide.png',
+  '/images/hero_leadhive-wide.png',
+  '/images/hero_services-wide.png',
 ];
 
 const SLIDE_ALTS = [
@@ -49,7 +49,7 @@ export default function HeroCarousel() {
       tabNumber: '01',
       tabTitle: 'NourDoc',
       tabSubtitle: 'Clinical Intelligence',
-      trustTags: ['POPIA-Aligned Architecture', 'Mandatory Physician Sign-Off']
+      trustTags: ['POPIA-Aligned Architecture', 'Mandatory Physician Review']
     },
     {
       id: 'leadhive',
@@ -112,22 +112,22 @@ export default function HeroCarousel() {
 
   const currentSlide = slidesData[currentSlideIndex];
 
-  // Motion variants for text content over image
+  // Motion variants for hero text displayed directly over the image
   const fadeUpVariant = {
-    hidden: { opacity: 0, y: 20 },
+    hidden: { opacity: 0, y: 16 },
     visible: (custom) => ({
       opacity: 1,
       y: 0,
       transition: { 
-        duration: prefersReducedMotion ? 0.01 : 0.55, 
+        duration: prefersReducedMotion ? 0.01 : 0.45, 
         ease: [0.16, 1, 0.3, 1], 
-        delay: prefersReducedMotion ? 0 : custom * 0.09 
+        delay: prefersReducedMotion ? 0 : custom * 0.08 
       }
     }),
     exit: { 
       opacity: 0, 
-      y: -14, 
-      transition: { duration: prefersReducedMotion ? 0.01 : 0.25 } 
+      y: -10, 
+      transition: { duration: prefersReducedMotion ? 0.01 : 0.2 } 
     }
   };
 
@@ -144,7 +144,7 @@ export default function HeroCarousel() {
         height: '100vh',
         minHeight: '100vh',
         maxHeight: '100vh',
-        backgroundColor: '#0A0F16',
+        backgroundColor: '#0F172A',
         overflow: 'hidden',
         display: 'flex',
         flexDirection: 'column',
@@ -152,16 +152,16 @@ export default function HeroCarousel() {
         zIndex: 1
       }}
     >
-      {/* ================= BACKGROUND IMAGES (Cinematic Cross-Fade) ================= */}
+      {/* ================= BACKGROUND IMAGES (Clear on right side) ================= */}
       <AnimatePresence initial={false}>
         <motion.div
           key={currentSlideIndex}
-          initial={{ opacity: 0, scale: 1.05 }}
-          animate={{ opacity: 1, scale: 1 }}
+          initial={{ opacity: 0, scale: 1.035 }}
+          animate={{ opacity: 1, scale: prefersReducedMotion ? 1 : 1.065 }}
           exit={{ opacity: 0 }}
-          transition={{ 
-            duration: prefersReducedMotion ? 0.01 : 0.9, 
-            ease: [0.16, 1, 0.3, 1] 
+          transition={{
+            opacity: { duration: prefersReducedMotion ? 0.01 : 0.7 },
+            scale: { duration: prefersReducedMotion ? 0.01 : 8, ease: [0.16, 1, 0.3, 1] }
           }}
           style={{
             position: 'absolute',
@@ -176,251 +176,230 @@ export default function HeroCarousel() {
               width: '100%',
               height: '100%',
               objectFit: 'cover',
-              objectPosition: 'center center',
+              objectPosition: 'center right',
               display: 'block'
             }}
           />
         </motion.div>
       </AnimatePresence>
 
-      {/* ================= MULTI-LAYER DARK MASK (Maximum Text Legibility) ================= */}
+      {/* Directional image overlay for readable, integrated left-aligned content */}
       <div 
         style={{
           position: 'absolute',
           inset: 0,
           zIndex: 1,
-          background: [
-            /* Deep base scrim */
-            'rgba(8, 12, 18, 0.65)',
-            /* Left directional heavy gradient for crisp text contrast */
-            'linear-gradient(95deg, rgba(8,12,18,0.96) 0%, rgba(8,12,18,0.88) 45%, rgba(8,12,18,0.45) 75%, rgba(8,12,18,0.15) 100%)',
-            /* Top vignette for navbar integration */
-            'linear-gradient(to bottom, rgba(8,12,18,0.65) 0%, transparent 25%)',
-            /* Bottom vignette for bottom dock integration */
-            'linear-gradient(to top, rgba(8,12,18,0.92) 0%, transparent 35%)'
-          ].join(', '),
+          background: 'linear-gradient(90deg, rgba(7, 15, 30, 0.86) 0%, rgba(7, 15, 30, 0.7) 33%, rgba(7, 15, 30, 0.28) 53%, transparent 72%)',
           pointerEvents: 'none'
         }} 
       />
 
-      {/* Ambient Orange & Amber Aura */}
-      <div 
-        style={{
-          position: 'absolute',
-          top: '-10%',
-          left: '-5%',
-          width: '550px',
-          height: '550px',
-          borderRadius: '50%',
-          background: 'radial-gradient(circle, rgba(243, 140, 19, 0.22) 0%, transparent 65%)',
-          pointerEvents: 'none',
-          filter: 'blur(35px)',
-          zIndex: 2
-        }}
-      />
+      {/* Soft motion layers bring depth to the opening experience without obscuring the image. */}
+      <div className="hero-ambient-orb hero-ambient-orb-one" aria-hidden="true" />
+      <div className="hero-ambient-orb hero-ambient-orb-two" aria-hidden="true" />
+      <div className="hero-fine-grid" aria-hidden="true" />
 
-      {/* ================= CENTER CONTENT: ULTRA-PREMIUM TEXT ON IMAGE ================= */}
+      {/* ================= CENTER CONTENT: DIRECTLY ON HERO IMAGE ================= */}
       <div 
         style={{ 
           position: 'relative', 
-          zIndex: 3, 
+          zIndex: 2, 
           flex: 1, 
           display: 'flex', 
           alignItems: 'center',
-          paddingTop: 'calc(var(--header-height) + 1rem)'
+          paddingTop: 'calc(var(--header-height) + 1.25rem)',
+          paddingBottom: '1rem'
         }}
       >
         <Container>
-          <div style={{ maxWidth: '820px' }}>
-            <AnimatePresence mode="wait">
-              <motion.div
-                key={currentSlide.id}
-                initial="hidden"
-                animate="visible"
-                exit="exit"
-              >
-                {/* Eyebrow Pill Badge */}
-                <motion.div 
-                  custom={0} 
-                  variants={fadeUpVariant}
-                  style={{ marginBottom: '1.35rem' }}
-                >
-                  <div
-                    style={{
-                      display: 'inline-flex',
-                      alignItems: 'center',
-                      gap: '0.5rem',
-                      padding: '0.35rem 0.95rem',
-                      borderRadius: 'var(--radius-full)',
-                      backgroundColor: 'rgba(243, 140, 19, 0.18)',
-                      border: '1px solid rgba(243, 140, 19, 0.45)',
-                      color: 'var(--color-amber)',
-                      fontSize: '0.76rem',
-                      fontWeight: 800,
-                      letterSpacing: '0.08em',
-                      textTransform: 'uppercase',
-                      backdropFilter: 'blur(12px)',
-                      boxShadow: '0 4px 15px rgba(0, 0, 0, 0.25)'
-                    }}
-                  >
-                    <span
-                      style={{
-                        width: 7,
-                        height: 7,
-                        borderRadius: '50%',
-                        backgroundColor: 'var(--color-orange)',
-                        display: 'inline-block',
-                        boxShadow: '0 0 8px rgba(243, 140, 19, 0.8)'
-                      }}
-                    />
-                    {currentSlide.badge}
-                  </div>
-                </motion.div>
-
-                {/* Main Headline — High Contrast Crisp White with Orange Accent */}
-                <motion.h1
-                  custom={1}
-                  variants={fadeUpVariant}
+          <div 
+            style={{ 
+              display: 'grid', 
+              gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 460px), 1fr))',
+              gap: '2rem',
+              alignItems: 'center'
+            }}
+          >
+            {/* Left Column: content sits directly on the hero image */}
+            <div style={{ maxWidth: '560px', width: '100%' }}>
+              <AnimatePresence mode="wait">
+                <motion.div
+                  key={currentSlide.id}
+                  initial="hidden"
+                  animate="visible"
+                  exit="exit"
                   style={{
-                    fontSize: 'clamp(2.35rem, 4.5vw, 3.85rem)',
-                    fontWeight: 800,
-                    lineHeight: 1.1,
-                    letterSpacing: '-0.03em',
+                    padding: 'clamp(1rem, 2vw, 1.5rem) 0',
                     color: '#FFFFFF',
-                    marginBottom: '1.35rem',
-                    textShadow: '0 2px 25px rgba(0, 0, 0, 0.85), 0 4px 50px rgba(0, 0, 0, 0.5)'
+                    textShadow: '0 2px 18px rgba(4, 10, 20, 0.48)'
                   }}
                 >
-                  {currentSlide.headline.replace(currentSlide.headlineHighlight, '')}
-                  <span 
-                    style={{ 
-                      color: 'var(--color-orange)',
-                      textShadow: '0 0 35px rgba(243, 140, 19, 0.6), 0 2px 20px rgba(0,0,0,0.85)'
-                    }}
+                  {/* Eyebrow Badge */}
+                  <motion.div 
+                    custom={0} 
+                    variants={fadeUpVariant}
+                    style={{ marginBottom: '1.15rem' }}
                   >
-                    {currentSlide.headlineHighlight}
-                  </span>
-                </motion.h1>
-
-                {/* Supporting Description */}
-                <motion.p
-                  custom={2}
-                  variants={fadeUpVariant}
-                  style={{
-                    fontSize: 'clamp(1.02rem, 1.5vw, 1.18rem)',
-                    color: 'rgba(255, 255, 255, 0.9)',
-                    lineHeight: 1.7,
-                    marginBottom: '2.25rem',
-                    maxWidth: '620px',
-                    textShadow: '0 1px 14px rgba(0, 0, 0, 0.85)'
-                  }}
-                >
-                  {currentSlide.supportingCopy}
-                </motion.p>
-
-                {/* CTA Buttons */}
-                <motion.div
-                  custom={3}
-                  variants={fadeUpVariant}
-                  style={{
-                    display: 'flex',
-                    flexWrap: 'wrap',
-                    gap: '1rem',
-                    alignItems: 'center',
-                    marginBottom: '2.25rem'
-                  }}
-                >
-                  <Button
-                    to={currentSlide.primaryCta.path}
-                    variant="primary"
-                    size="lg"
-                    icon={<ArrowRight size={17} />}
-                    style={{
-                      boxShadow: '0 4px 20px rgba(243, 140, 19, 0.45)',
-                      padding: '0.9rem 2rem'
-                    }}
-                  >
-                    {currentSlide.primaryCta.label}
-                  </Button>
-
-                  <a
-                    href={currentSlide.secondaryCta.path}
-                    style={{
-                      display: 'inline-flex',
-                      alignItems: 'center',
-                      gap: '0.5rem',
-                      fontSize: '0.98rem',
-                      fontWeight: 700,
-                      color: '#FFFFFF',
-                      textDecoration: 'none',
-                      padding: '0.85rem 1.8rem',
-                      borderRadius: 'var(--radius-sm)',
-                      border: '1.5px solid rgba(255, 255, 255, 0.4)',
-                      backdropFilter: 'blur(12px)',
-                      backgroundColor: 'rgba(255, 255, 255, 0.1)',
-                      transition: 'all var(--transition-fast)'
-                    }}
-                    onMouseEnter={(e) => {
-                      e.currentTarget.style.backgroundColor = 'rgba(255, 255, 255, 0.2)';
-                      e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.7)';
-                    }}
-                    onMouseLeave={(e) => {
-                      e.currentTarget.style.backgroundColor = 'rgba(255, 255, 255, 0.1)';
-                      e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.4)';
-                    }}
-                  >
-                    {currentSlide.secondaryCta.label}
-                  </a>
-                </motion.div>
-
-                {/* Trust Verification Strip */}
-                <motion.div
-                  custom={4}
-                  variants={fadeUpVariant}
-                  style={{
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: '1.25rem',
-                    flexWrap: 'wrap'
-                  }}
-                >
-                  {currentSlide.trustTags.map((tag, tIdx) => (
                     <div
-                      key={tIdx}
                       style={{
-                        display: 'flex',
+                        display: 'inline-flex',
                         alignItems: 'center',
                         gap: '0.45rem',
-                        fontSize: '0.78rem',
-                        fontWeight: 600,
-                        color: 'rgba(255, 255, 255, 0.85)',
-                        backgroundColor: 'rgba(10, 15, 22, 0.65)',
-                        border: '1px solid rgba(255, 255, 255, 0.15)',
-                        borderRadius: 'var(--radius-sm)',
-                        padding: '0.35rem 0.75rem',
-                        backdropFilter: 'blur(8px)'
+                        padding: '0.3rem 0.85rem',
+                        borderRadius: 'var(--radius-full)',
+                        backgroundColor: 'rgba(7, 15, 30, 0.28)',
+                        border: '1px solid rgba(255, 255, 255, 0.28)',
+                        color: '#FFD08A',
+                        backdropFilter: 'blur(3px)',
+                        WebkitBackdropFilter: 'blur(3px)',
+                        fontSize: '0.74rem',
+                        fontWeight: 800,
+                        letterSpacing: '0.07em',
+                        textTransform: 'uppercase'
                       }}
                     >
-                      <CheckCircle2 size={15} color="var(--color-orange)" />
-                      <span>{tag}</span>
+                      <span
+                        style={{
+                          width: 7,
+                          height: 7,
+                          borderRadius: '50%',
+                          backgroundColor: 'var(--color-orange)',
+                          display: 'inline-block',
+                          boxShadow: '0 0 0 3px rgba(243, 140, 19, 0.25)'
+                        }}
+                      />
+                      {currentSlide.badge}
                     </div>
-                  ))}
+                  </motion.div>
+
+                  {/* Headline: light typography with Katko orange accent */}
+                  <motion.h1
+                    custom={1}
+                    variants={fadeUpVariant}
+                    style={{
+                      fontSize: 'clamp(2.25rem, 3.5vw, 3.25rem)',
+                      fontWeight: 800,
+                      lineHeight: 1.15,
+                      letterSpacing: '-0.035em',
+                      color: '#FFFFFF',
+                      marginBottom: '1.15rem'
+                    }}
+                  >
+                    {currentSlide.headline.replace(currentSlide.headlineHighlight, '')}
+                    <span style={{ color: 'var(--color-orange)' }}>
+                      {currentSlide.headlineHighlight}
+                    </span>
+                  </motion.h1>
+
+                  {/* Supporting Copy */}
+                  <motion.p
+                    custom={2}
+                    variants={fadeUpVariant}
+                    style={{
+                      fontSize: '0.98rem',
+                      color: 'rgba(255, 255, 255, 0.9)',
+                      lineHeight: 1.65,
+                      marginBottom: '1.75rem',
+                      fontWeight: 450
+                    }}
+                  >
+                    {currentSlide.supportingCopy}
+                  </motion.p>
+
+                  {/* CTA Buttons */}
+                  <motion.div
+                    custom={3}
+                    variants={fadeUpVariant}
+                    style={{
+                      display: 'flex',
+                      flexWrap: 'wrap',
+                      gap: '0.85rem',
+                      alignItems: 'center',
+                      marginBottom: '1.75rem'
+                    }}
+                  >
+                    <Button
+                      to={currentSlide.primaryCta.path}
+                      variant="primary"
+                      size="md"
+                      icon={<ArrowRight size={16} />}
+                      style={{
+                        boxShadow: '0 4px 16px rgba(243, 140, 19, 0.35)',
+                        padding: '0.8rem 1.6rem'
+                      }}
+                    >
+                      {currentSlide.primaryCta.label}
+                    </Button>
+
+                    <Button
+                      to={currentSlide.secondaryCta.path}
+                      variant="secondary"
+                      size="md"
+                      style={{
+                        backgroundColor: 'rgba(7, 15, 30, 0.18)',
+                        borderColor: 'rgba(255, 255, 255, 0.7)',
+                        color: '#FFFFFF',
+                        backdropFilter: 'blur(3px)',
+                        WebkitBackdropFilter: 'blur(3px)',
+                        padding: '0.8rem 1.4rem'
+                      }}
+                    >
+                      {currentSlide.secondaryCta.label}
+                    </Button>
+                  </motion.div>
+
+                  {/* Trust Verification Strip */}
+                  <motion.div
+                    custom={4}
+                    variants={fadeUpVariant}
+                    style={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: '1rem',
+                      flexWrap: 'wrap',
+                      paddingTop: '1.15rem',
+                      borderTop: '1px solid rgba(255, 255, 255, 0.35)'
+                    }}
+                  >
+                    {currentSlide.trustTags.map((tag, tIdx) => (
+                      <div
+                        key={tIdx}
+                        style={{
+                          display: 'flex',
+                          alignItems: 'center',
+                          gap: '0.4rem',
+                          fontSize: '0.74rem',
+                          fontWeight: 600,
+                          color: 'rgba(255, 255, 255, 0.9)'
+                        }}
+                      >
+                        <CheckCircle2 size={14} color="var(--color-orange)" />
+                        <span>{tag}</span>
+                      </div>
+                    ))}
+                  </motion.div>
                 </motion.div>
-              </motion.div>
-            </AnimatePresence>
+              </AnimatePresence>
+            </div>
+
+            {/* Right Column: Completely Clear Space showing Hero Background Image */}
+            <div style={{ display: 'none' }}>
+              {/* Intentionally left clear so background image on right 50% is 100% visible */}
+            </div>
           </div>
         </Container>
       </div>
 
-      {/* ================= BOTTOM CONTROL DOCK (Inside 100vh Container) ================= */}
+      {/* ================= BOTTOM CONTROL DOCK (Inside 100vh) ================= */}
       <div
         style={{
-          position: 'relative',
+          position: 'absolute',
           zIndex: 3,
-          backgroundColor: 'rgba(8, 12, 18, 0.75)',
-          backdropFilter: 'blur(16px)',
-          borderTop: '1px solid rgba(255, 255, 255, 0.1)',
-          padding: '0.9rem 0'
+          left: 0,
+          right: 0,
+          bottom: 0,
+          background: 'linear-gradient(0deg, rgba(4, 10, 20, 0.72), transparent)',
+          padding: '1.25rem 0 1.5rem'
         }}
       >
         <Container>
@@ -429,12 +408,18 @@ export default function HeroCarousel() {
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'space-between',
-              flexWrap: 'wrap',
               gap: '1rem'
             }}
           >
             {/* Slide Navigation Tabs */}
-            <div style={{ display: 'flex', gap: '0.65rem', flexWrap: 'wrap' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '0.85rem', minWidth: 'min(42vw, 240px)' }}>
+              <span style={{ color: '#FFFFFF', fontSize: '0.76rem', fontWeight: 700, letterSpacing: '0.1em' }}>0{currentSlideIndex + 1}</span>
+              <div style={{ height: '1px', flex: 1, backgroundColor: 'rgba(255, 255, 255, 0.28)', overflow: 'hidden' }} aria-label={`Slide ${currentSlideIndex + 1} of ${totalSlides}`}>
+                <div style={{ height: '100%', width: `${progress}%`, backgroundColor: 'var(--color-orange)', transition: 'width 0.04s linear' }} />
+              </div>
+              <span style={{ color: 'rgba(255, 255, 255, 0.55)', fontSize: '0.72rem', fontWeight: 600 }}>0{totalSlides}</span>
+            </div>
+            <div style={{ display: 'none' }}>
               {slidesData.map((slide, idx) => {
                 const isActive = currentSlideIndex === idx;
                 return (
@@ -446,34 +431,34 @@ export default function HeroCarousel() {
                     aria-current={isActive ? 'true' : 'false'}
                     style={{
                       position: 'relative',
-                      padding: '0.55rem 1.1rem',
-                      borderRadius: 'var(--radius-sm)',
-                      backgroundColor: isActive ? 'rgba(243, 140, 19, 0.2)' : 'rgba(255, 255, 255, 0.06)',
-                      border: isActive ? '1.5px solid var(--color-orange)' : '1px solid rgba(255, 255, 255, 0.15)',
+                      padding: '0.5rem 1rem',
+                      borderRadius: '12px',
+                      backgroundColor: isActive ? 'rgba(243, 140, 19, 0.18)' : 'rgba(255, 255, 255, 0.05)',
+                      border: isActive ? '1px solid rgba(243, 140, 19, 0.9)' : '1px solid rgba(255, 255, 255, 0.13)',
                       cursor: 'pointer',
                       textAlign: 'left',
-                      minWidth: '150px',
+                      minWidth: '145px',
                       overflow: 'hidden',
-                      backdropFilter: 'blur(8px)',
+                      boxShadow: isActive ? '0 8px 22px rgba(243, 140, 19, 0.2)' : 'none',
                       transition: 'all var(--transition-fast)'
                     }}
                   >
                     <div
                       style={{
-                        fontSize: '0.65rem',
+                        fontSize: '0.64rem',
                         fontWeight: 800,
                         letterSpacing: '0.06em',
-                        color: isActive ? 'var(--color-orange)' : 'rgba(255, 255, 255, 0.5)',
-                        marginBottom: '0.15rem'
+                        color: isActive ? '#FFD08A' : 'rgba(255, 255, 255, 0.5)',
+                        marginBottom: '0.1rem'
                       }}
                     >
                       {slide.tabNumber} · {slide.tabTitle}
                     </div>
                     <div
                       style={{
-                        fontSize: '0.8rem',
+                        fontSize: '0.78rem',
                         fontWeight: 700,
-                        color: isActive ? '#FFFFFF' : 'rgba(255, 255, 255, 0.75)',
+                        color: isActive ? '#FFFFFF' : 'rgba(255, 255, 255, 0.76)',
                         whiteSpace: 'nowrap'
                       }}
                     >
@@ -510,14 +495,14 @@ export default function HeroCarousel() {
                   width: 36,
                   height: 36,
                   borderRadius: '50%',
-                  border: '1px solid rgba(255, 255, 255, 0.25)',
-                  backgroundColor: 'rgba(255, 255, 255, 0.08)',
+                  border: '1px solid rgba(255, 255, 255, 0.22)',
+                  backgroundColor: 'rgba(255, 255, 255, 0.1)',
                   color: '#FFFFFF',
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
                   cursor: 'pointer',
-                  backdropFilter: 'blur(8px)',
+                  boxShadow: '0 4px 14px rgba(0,0,0,0.16)',
                   transition: 'all var(--transition-fast)'
                 }}
               >
@@ -532,14 +517,14 @@ export default function HeroCarousel() {
                   width: 36,
                   height: 36,
                   borderRadius: '50%',
-                  border: '1px solid rgba(255, 255, 255, 0.25)',
-                  backgroundColor: 'rgba(255, 255, 255, 0.08)',
+                  border: '1px solid rgba(255, 255, 255, 0.22)',
+                  backgroundColor: 'rgba(255, 255, 255, 0.1)',
                   color: '#FFFFFF',
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
                   cursor: 'pointer',
-                  backdropFilter: 'blur(8px)',
+                  boxShadow: '0 4px 14px rgba(0,0,0,0.16)',
                   transition: 'all var(--transition-fast)'
                 }}
               >
@@ -554,14 +539,14 @@ export default function HeroCarousel() {
                   width: 36,
                   height: 36,
                   borderRadius: '50%',
-                  border: '1px solid rgba(255, 255, 255, 0.25)',
-                  backgroundColor: 'rgba(255, 255, 255, 0.08)',
+                  border: '1px solid rgba(255, 255, 255, 0.22)',
+                  backgroundColor: 'rgba(255, 255, 255, 0.1)',
                   color: '#FFFFFF',
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
                   cursor: 'pointer',
-                  backdropFilter: 'blur(8px)',
+                  boxShadow: '0 4px 14px rgba(0,0,0,0.16)',
                   transition: 'all var(--transition-fast)'
                 }}
               >
@@ -573,10 +558,77 @@ export default function HeroCarousel() {
       </div>
 
       <style>{`
+        .hero-ambient-orb,
+        .hero-fine-grid {
+          position: absolute;
+          pointer-events: none;
+          z-index: 1;
+        }
+        .hero-ambient-orb {
+          border-radius: 999px;
+          filter: blur(12px);
+          mix-blend-mode: screen;
+        }
+        .hero-ambient-orb-one {
+          width: 34vw;
+          height: 34vw;
+          min-width: 320px;
+          min-height: 320px;
+          left: -12vw;
+          top: 12%;
+          background: radial-gradient(circle, rgba(243, 140, 19, 0.2) 0%, rgba(243, 140, 19, 0.04) 42%, transparent 70%);
+          animation: heroFloatOne 12s ease-in-out infinite alternate;
+        }
+        .hero-ambient-orb-two {
+          width: 26vw;
+          height: 26vw;
+          min-width: 260px;
+          min-height: 260px;
+          right: 4vw;
+          bottom: 10%;
+          background: radial-gradient(circle, rgba(80, 177, 255, 0.16) 0%, transparent 68%);
+          animation: heroFloatTwo 16s ease-in-out infinite alternate;
+        }
+        .hero-fine-grid {
+          inset: 0;
+          opacity: 0.12;
+          background-image: linear-gradient(rgba(255,255,255,0.18) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.18) 1px, transparent 1px);
+          background-size: 52px 52px;
+          mask-image: linear-gradient(90deg, black 0%, rgba(0,0,0,0.45) 42%, transparent 70%);
+        }
+        @keyframes heroFloatOne {
+          from { transform: translate3d(0, -2%, 0) scale(0.94); }
+          to { transform: translate3d(10%, 7%, 0) scale(1.08); }
+        }
+        @keyframes heroFloatTwo {
+          from { transform: translate3d(0, 0, 0) scale(0.92); }
+          to { transform: translate3d(-12%, -8%, 0) scale(1.1); }
+        }
         @media (max-width: 768px) {
           .hero-carousel-premium {
             height: 100vh !important;
             min-height: 100vh !important;
+          }
+          .hero-carousel-premium::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            z-index: 1;
+            pointer-events: none;
+            background: linear-gradient(90deg, rgba(7, 15, 30, 0.9) 0%, rgba(7, 15, 30, 0.76) 58%, rgba(7, 15, 30, 0.32) 100%);
+          }
+          .hero-ambient-orb-one {
+            left: -32vw;
+            top: 18%;
+          }
+          .hero-ambient-orb-two {
+            right: -25vw;
+          }
+        }
+        @media (prefers-reduced-motion: reduce) {
+          .hero-ambient-orb-one,
+          .hero-ambient-orb-two {
+            animation: none;
           }
         }
       `}</style>

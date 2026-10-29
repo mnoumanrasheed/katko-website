@@ -60,7 +60,7 @@ export default function RiskCompliance() {
     >
       {/* Hero Section — Premium Background Image */}
       <PageHero
-        imageSrc="/images/page_risk.jpg"
+        imageSrc="/images/page_risk-wide.png"
         imageAlt="Katko Risk and Compliance Framework"
         eyebrow="Risk and Compliance"
         eyebrowIcon={<ShieldCheck size={14} />}
@@ -71,7 +71,7 @@ export default function RiskCompliance() {
         trustNote="POPIA awareness · Enterprise data governance practices"
       />
 
-      <section className="section section-bg-grey">
+      <section className="section section-bg-grey" id="framework">
         <Container>
           <SectionHeading
             centered

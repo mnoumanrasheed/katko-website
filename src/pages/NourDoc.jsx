@@ -81,7 +81,7 @@ export default function NourDoc() {
     >
       {/* Hero Section — Premium Background Image */}
       <PageHero
-        imageSrc="/images/page_nourdoc.jpg"
+        imageSrc="/images/page_nourdoc-wide.png"
         imageAlt="NourDoc — AI Clinical Documentation"
         eyebrow="Healthcare AI Solution"
         eyebrowIcon={<Stethoscope size={14} />}

@@ -86,7 +86,7 @@ export default function AIServices() {
     >
       {/* Hero Section — Premium Background Image */}
       <PageHero
-        imageSrc="/images/page_ai_services.jpg"
+        imageSrc="/images/page_ai_services-wide.png"
         imageAlt="Katko AI Engineering Services"
         eyebrow="Enterprise AI & Engineering"
         eyebrowIcon={<Cpu size={14} />}
@@ -98,7 +98,7 @@ export default function AIServices() {
       />
 
       {/* Six Pillars of AI Services */}
-      <section className="section section-bg-white">
+      <section className="section section-bg-white" id="services">
         <Container>
           <SectionHeading
             centered

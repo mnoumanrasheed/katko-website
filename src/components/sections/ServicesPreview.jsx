@@ -1,10 +1,8 @@
 import React from 'react';
 import Container from '../ui/Container';
 import SectionHeading from '../ui/SectionHeading';
-import Button from '../ui/Button';
 import AIServicesArchitectureVisual from '../visuals/AIServicesArchitectureVisual';
 import { 
-  ArrowRight, 
   Cpu, 
   Database, 
   Layout, 
@@ -253,18 +251,6 @@ export default function ServicesPreview() {
           </div>
         </div>
 
-        {/* Action Row */}
-        <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap', alignItems: 'center', justifyContent: 'center' }}>
-          <Button to="/artificial-intelligence-services" variant="primary" icon={<ArrowRight size={16} />}>
-            Explore AI Services
-          </Button>
-          <Button to="/customer-experience" variant="secondary">
-            Explore Customer Experience
-          </Button>
-          <Button to="/contact-us?enquiry=services" variant="amber">
-            Discuss Your Project
-          </Button>
-        </div>
       </Container>
     </section>
   );

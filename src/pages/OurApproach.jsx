@@ -17,7 +17,8 @@ import {
   Rocket, 
   ArrowRight, 
   ShieldCheck, 
-  Clock 
+  Clock,
+  Compass
 } from 'lucide-react';
 
 export default function OurApproach() {
@@ -30,7 +31,7 @@ export default function OurApproach() {
     >
       {/* Hero Section — Premium Background Image */}
       <PageHero
-        imageSrc="/images/page_approach.jpg"
+        imageSrc="/images/page_approach-wide.png"
         imageAlt="Katko Delivery Approach and Methodology"
         eyebrow="Delivery Methodology"
         eyebrowIcon={<Compass size={14} />}

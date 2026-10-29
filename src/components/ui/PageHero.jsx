@@ -1,10 +1,11 @@
 import React from 'react';
 import { ArrowRight, CheckCircle2 } from 'lucide-react';
+import Container from '../ui/Container';
 import Button from '../ui/Button';
 
 /**
- * PageHero — Reusable premium full-bleed hero for all inner pages.
- * 100vh height, image as background with heavy dark overlay, crisp white text.
+ * PageHero — Reusable luxury full-bleed hero for all inner pages.
+ * 100vh height, split composition with white opacity card on left half, clear image on right half.
  */
 export default function PageHero({
   imageSrc,
@@ -17,9 +18,9 @@ export default function PageHero({
   primaryCta,
   secondaryCta,
   trustNote,
-  objectPosition = 'center center',
+  objectPosition = 'center right',
 }) {
-  // Split headline: first sentence(s) white, last sentence orange
+  // Split headline: first sentence(s) charcoal, last sentence orange
   const splitHeadline = (text) => {
     if (!highlightLast) return { main: text, accent: null };
     const firstDot = text.indexOf('.');
@@ -45,11 +46,11 @@ export default function PageHero({
         flexDirection: 'column',
         justifyContent: 'center',
         overflow: 'hidden',
-        backgroundColor: '#0A0F16',
+        backgroundColor: '#0F172A',
         zIndex: 1
       }}
     >
-      {/* Background Image */}
+      {/* Background Image — Full bleed, clear on right */}
       <img
         src={imageSrc}
         alt={imageAlt}
@@ -65,205 +66,174 @@ export default function PageHero({
         }}
       />
 
-      {/* Heavy multi-layer overlay for maximum text legibility */}
+      {/* Gentle directional scrim — light left wash, fully clear on right */}
       <div style={{
         position: 'absolute',
         inset: 0,
         zIndex: 1,
-        background: [
-          /* Strong full-canvas dark base */
-          'rgba(6, 9, 14, 0.72)',
-          /* Left panel — heavy so text is 100% crisp */
-          'linear-gradient(95deg, rgba(6,9,14,0.97) 0%, rgba(6,9,14,0.88) 45%, rgba(6,9,14,0.45) 75%, rgba(6,9,14,0.15) 100%)',
-          /* Bottom fade so bottom edge transitions cleanly */
-          'linear-gradient(to top, rgba(6,9,14,0.9) 0%, transparent 35%)',
-          /* Top vignette for fixed navbar */
-          'linear-gradient(to bottom, rgba(6,9,14,0.7) 0%, transparent 25%)',
-        ].join(', '),
+        background: 'linear-gradient(90deg, rgba(7, 15, 30, 0.86) 0%, rgba(7, 15, 30, 0.7) 33%, rgba(7, 15, 30, 0.28) 53%, transparent 72%)',
+        pointerEvents: 'none'
       }} />
 
-      {/* Orange ambient glow — top-left accent */}
-      <div style={{
-        position: 'absolute',
-        top: '-100px',
-        left: '-80px',
-        width: '550px',
-        height: '550px',
-        borderRadius: '50%',
-        background: 'radial-gradient(circle, rgba(243,140,19,0.22) 0%, transparent 65%)',
-        zIndex: 2,
-        pointerEvents: 'none',
-        filter: 'blur(35px)'
-      }} />
-
-      {/* Content — centered vertically, left-aligned */}
-      <div style={{
-        position: 'relative',
-        zIndex: 3,
-        padding: 'calc(var(--header-height) + 1.5rem) clamp(1.5rem, 7vw, 8rem) 3rem clamp(1.5rem, 7vw, 8rem)',
-        maxWidth: '880px',
-      }}>
-
-        {/* Eyebrow badge */}
-        {eyebrow && (
-          <div style={{
-            display: 'inline-flex',
-            alignItems: 'center',
-            gap: '0.5rem',
-            marginBottom: '1.5rem',
-          }}>
-            {eyebrowIcon && (
-              <span style={{ color: '#f38c13', display: 'flex', alignItems: 'center' }}>
-                {eyebrowIcon}
-              </span>
-            )}
-            <span style={{
-              fontSize: '0.72rem',
-              fontWeight: 800,
-              textTransform: 'uppercase',
-              letterSpacing: '0.12em',
-              color: '#f8bf00',
-              background: 'rgba(243,140,19,0.18)',
-              border: '1px solid rgba(243,140,19,0.5)',
-              padding: '0.35rem 1rem',
-              borderRadius: '999px',
-              backdropFilter: 'blur(12px)',
-              boxShadow: '0 4px 15px rgba(0,0,0,0.3)',
-            }}>
-              {eyebrow}
-            </span>
-          </div>
-        )}
-
-        {/* Headline — large, bold, crisp white with high-contrast drop shadow */}
-        <h1 style={{
-          fontSize: 'clamp(2.35rem, 4.5vw, 3.85rem)',
-          fontWeight: 900,
-          lineHeight: 1.1,
-          letterSpacing: '-0.03em',
-          color: '#ffffff',
-          marginBottom: '1.4rem',
-          textShadow: '0 2px 25px rgba(0,0,0,0.9), 0 4px 60px rgba(0,0,0,0.6)',
-          maxWidth: '750px',
-        }}>
-          {headlineMain && (
-            <span>{headlineMain}</span>
-          )}
-          {headlineAccent && (
-            <span style={{
-              color: '#f38c13',
-              textShadow: '0 0 35px rgba(243,140,19,0.6), 0 2px 20px rgba(0,0,0,0.9)',
-            }}>
-              {headlineAccent}
-            </span>
-          )}
-        </h1>
-
-        {/* Divider line */}
-        <div style={{
-          width: '64px',
-          height: '3px',
-          background: 'linear-gradient(to right, #f38c13, rgba(243,140,19,0))',
-          borderRadius: '2px',
-          marginBottom: '1.5rem',
-        }} />
-
-        {/* Subtext — high contrast, readable */}
-        {subtext && (
-          <p style={{
-            fontSize: 'clamp(1.02rem, 1.5vw, 1.18rem)',
-            fontWeight: 500,
-            color: 'rgba(255,255,255,0.92)',
-            lineHeight: 1.7,
-            maxWidth: '620px',
-            marginBottom: primaryCta || secondaryCta ? '2.25rem' : '0',
-            textShadow: '0 1px 14px rgba(0,0,0,0.85)',
-          }}>
-            {subtext}
-          </p>
-        )}
-
-        {/* CTA Buttons */}
-        {(primaryCta || secondaryCta) && (
-          <div style={{
-            display: 'flex',
-            flexWrap: 'wrap',
-            gap: '1rem',
-            alignItems: 'center',
-            marginBottom: trustNote ? '2rem' : 0,
-          }}>
-            {primaryCta && (
-              <Button to={primaryCta.to} variant="primary" size="lg" icon={<ArrowRight size={17} />} style={{ boxShadow: '0 4px 20px rgba(243, 140, 19, 0.45)', padding: '0.9rem 2rem' }}>
-                {primaryCta.label}
-              </Button>
-            )}
-            {secondaryCta && (
-              <a
-                href={secondaryCta.to}
-                style={{
+      {/* Content — Left-aligned half-screen white opacity card */}
+      <div 
+        style={{
+          position: 'relative',
+          zIndex: 2,
+          paddingTop: 'calc(var(--header-height) + 1.5rem)',
+          paddingBottom: '2rem'
+        }}
+      >
+        <Container>
+          <div 
+            style={{ 
+              display: 'grid', 
+              gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 460px), 1fr))',
+              gap: '2rem',
+              alignItems: 'center'
+            }}
+          >
+            {/* Left Column: Soft Glass Content Area */}
+            <div 
+              style={{
+                maxWidth: '540px',
+                width: '100%',
+                padding: 'clamp(1rem, 2vw, 1.5rem) 0',
+                color: '#FFFFFF',
+                textShadow: '0 2px 18px rgba(4, 10, 20, 0.48)'
+              }}
+            >
+              {/* Eyebrow badge */}
+              {eyebrow && (
+                <div style={{
                   display: 'inline-flex',
                   alignItems: 'center',
-                  gap: '0.5rem',
-                  fontSize: '0.98rem',
-                  fontWeight: 700,
-                  color: '#ffffff',
-                  textDecoration: 'none',
-                  padding: '0.85rem 1.8rem',
-                  borderRadius: 'var(--radius-sm)',
-                  border: '1.5px solid rgba(255,255,255,0.4)',
-                  backdropFilter: 'blur(12px)',
-                  background: 'rgba(255,255,255,0.1)',
-                  transition: 'all 0.22s ease',
-                }}
-                onMouseEnter={e => {
-                  e.currentTarget.style.background = 'rgba(255,255,255,0.2)';
-                  e.currentTarget.style.borderColor = 'rgba(255,255,255,0.7)';
-                }}
-                onMouseLeave={e => {
-                  e.currentTarget.style.background = 'rgba(255,255,255,0.1)';
-                  e.currentTarget.style.borderColor = 'rgba(255,255,255,0.4)';
-                }}
-              >
-                {secondaryCta.label}
-              </a>
-            )}
-          </div>
-        )}
+                  gap: '0.45rem',
+                  padding: '0.3rem 0.85rem',
+                  borderRadius: 'var(--radius-full)',
+                  backgroundColor: 'rgba(7, 15, 30, 0.28)',
+                  border: '1px solid rgba(255, 255, 255, 0.28)',
+                  color: '#FFD08A',
+                  backdropFilter: 'blur(3px)',
+                  WebkitBackdropFilter: 'blur(3px)',
+                  fontSize: '0.74rem',
+                  fontWeight: 800,
+                  letterSpacing: '0.07em',
+                  textTransform: 'uppercase',
+                  marginBottom: '1.15rem'
+                }}>
+                  {eyebrowIcon && (
+                    <span style={{ color: 'var(--color-orange)', display: 'flex', alignItems: 'center' }}>
+                      {eyebrowIcon}
+                    </span>
+                  )}
+                  <span>{eyebrow}</span>
+                </div>
+              )}
 
-        {/* Trust note */}
-        {trustNote && (
-          <div style={{
-            display: 'inline-flex',
-            alignItems: 'center',
-            gap: '0.6rem',
-            fontSize: '0.8rem',
-            fontWeight: 600,
-            color: 'rgba(255,255,255,0.85)',
-            background: 'rgba(10,15,22,0.65)',
-            border: '1px solid rgba(255,255,255,0.18)',
-            borderRadius: 'var(--radius-sm)',
-            padding: '0.5rem 1rem',
-            backdropFilter: 'blur(10px)',
-          }}>
-            <span style={{
-              width: 7,
-              height: 7,
-              borderRadius: '50%',
-              backgroundColor: '#10B981',
-              boxShadow: '0 0 8px rgba(16,185,129,0.8)',
-              flexShrink: 0,
-            }} />
-            {trustNote}
+              {/* Headline */}
+              <h1 style={{
+                fontSize: 'clamp(2rem, 3.2vw, 2.85rem)',
+                fontWeight: 800,
+                lineHeight: 1.15,
+                letterSpacing: '-0.025em',
+                color: '#FFFFFF',
+                marginBottom: '1.15rem'
+              }}>
+                {headlineMain && (
+                  <span>{headlineMain}</span>
+                )}
+                {headlineAccent && (
+                  <span style={{ color: 'var(--color-orange)' }}>
+                    {headlineAccent}
+                  </span>
+                )}
+              </h1>
+
+              {/* Subtext */}
+              {subtext && (
+                <p style={{
+                  fontSize: '0.98rem',
+                  fontWeight: 450,
+                  color: 'rgba(255, 255, 255, 0.9)',
+                  lineHeight: 1.65,
+                  marginBottom: primaryCta || secondaryCta ? '1.75rem' : '0',
+                }}>
+                  {subtext}
+                </p>
+              )}
+
+              {/* CTA Buttons */}
+              {(primaryCta || secondaryCta) && (
+                <div style={{
+                  display: 'flex',
+                  flexWrap: 'wrap',
+                  gap: '0.85rem',
+                  alignItems: 'center',
+                  marginBottom: trustNote ? '1.75rem' : 0,
+                }}>
+                  {primaryCta && (
+                    <Button to={primaryCta.to} variant="primary" size="md" icon={<ArrowRight size={16} />} style={{ boxShadow: '0 4px 16px rgba(243, 140, 19, 0.35)', padding: '0.8rem 1.6rem' }}>
+                      {primaryCta.label}
+                    </Button>
+                  )}
+                  {secondaryCta && (
+                    <Button
+                      to={secondaryCta.to}
+                      variant="secondary-dark"
+                      size="md"
+                      style={{
+                        padding: '0.8rem 1.4rem',
+                        borderColor: 'rgba(255, 255, 255, 0.7)',
+                        backgroundColor: 'rgba(7, 15, 30, 0.18)',
+                        color: '#FFFFFF',
+                        backdropFilter: 'blur(3px)',
+                        WebkitBackdropFilter: 'blur(3px)',
+                      }}
+                    >
+                      {secondaryCta.label}
+                    </Button>
+                  )}
+                </div>
+              )}
+
+              {/* Trust note */}
+              {trustNote && (
+                <div style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '0.5rem',
+                  fontSize: '0.76rem',
+                  fontWeight: 600,
+                  color: 'rgba(255, 255, 255, 0.9)',
+                  paddingTop: '1.15rem',
+                  borderTop: '1px solid rgba(255, 255, 255, 0.35)'
+                }}>
+                  <CheckCircle2 size={14} color="var(--color-orange)" />
+                  <span>{trustNote}</span>
+                </div>
+              )}
+            </div>
+
+            {/* Right Column: 100% Clear View of Hero Image */}
+            <div style={{ display: 'none' }} />
           </div>
-        )}
+        </Container>
       </div>
 
-      {/* Responsive mobile styles */}
       <style>{`
         @media (max-width: 768px) {
           section[data-pagehero="true"] {
             height: 100vh !important;
             min-height: 100vh !important;
+          }
+          section[data-pagehero="true"]::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            z-index: 1;
+            pointer-events: none;
+            background: linear-gradient(90deg, rgba(7, 15, 30, 0.9) 0%, rgba(7, 15, 30, 0.76) 58%, rgba(7, 15, 30, 0.32) 100%);
           }
         }
       `}</style>

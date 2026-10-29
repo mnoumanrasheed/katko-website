@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import ScrollToTop from './components/layout/ScrollToTop';
 
 // Pages
@@ -35,6 +35,20 @@ export default function App() {
         {/* Footer-Only Legal Pages */}
         <Route path="/privacy-policy" element={<PrivacyPolicy />} />
         <Route path="/terms-of-use" element={<TermsOfUse />} />
+
+        {/* Intuitive Route Aliases / Redirects to Prevent 404s */}
+        <Route path="/services" element={<Navigate to="/artificial-intelligence-services" replace />} />
+        <Route path="/ai-services" element={<Navigate to="/artificial-intelligence-services" replace />} />
+        <Route path="/ai" element={<Navigate to="/artificial-intelligence-services" replace />} />
+        <Route path="/cx" element={<Navigate to="/customer-experience" replace />} />
+        <Route path="/approach" element={<Navigate to="/our-approach" replace />} />
+        <Route path="/compliance" element={<Navigate to="/risk-compliance" replace />} />
+        <Route path="/risk" element={<Navigate to="/risk-compliance" replace />} />
+        <Route path="/about" element={<Navigate to="/about-us" replace />} />
+        <Route path="/contact" element={<Navigate to="/contact-us" replace />} />
+        <Route path="/nour-doc" element={<Navigate to="/nourdoc" replace />} />
+        <Route path="/leadhive" element={<Navigate to="/leadhive-ai" replace />} />
+        <Route path="/products" element={<Navigate to="/nourdoc" replace />} />
 
         {/* 404 Catch-All */}
         <Route path="*" element={<NotFound />} />
