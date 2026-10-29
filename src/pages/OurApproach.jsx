@@ -31,7 +31,7 @@ export default function OurApproach() {
     >
       {/* Hero Section — Premium Background Image */}
       <PageHero
-        imageSrc="/images/page_approach-wide.png"
+        imageSrc="/images/page_approach-wide-optimized.jpg"
         imageAlt="Katko Delivery Approach and Methodology"
         eyebrow="Delivery Methodology"
         eyebrowIcon={<Compass size={14} />}

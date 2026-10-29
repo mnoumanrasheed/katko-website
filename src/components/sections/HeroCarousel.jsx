@@ -16,9 +16,9 @@ import {
 import { usePrefersReducedMotion } from '../../hooks/usePrefersReducedMotion';
 
 const SLIDE_IMAGES = [
-  '/images/hero_nourdoc-wide.png',
-  '/images/hero_leadhive-wide.png',
-  '/images/hero_services-wide.png',
+  '/images/hero_nourdoc-wide-optimized.jpg',
+  '/images/hero_leadhive-wide-optimized.jpg',
+  '/images/hero_services-wide-optimized.jpg',
 ];
 
 const SLIDE_ALTS = [
@@ -32,6 +32,15 @@ export default function HeroCarousel() {
   const [isPaused, setIsPaused] = useState(false);
   const [progress, setProgress] = useState(0);
   const prefersReducedMotion = usePrefersReducedMotion();
+
+  useEffect(() => {
+    const preload = () => SLIDE_IMAGES.slice(1).forEach((src) => {
+      const image = new Image();
+      image.src = src;
+    });
+    const idleId = window.setTimeout(preload, 300);
+    return () => window.clearTimeout(idleId);
+  }, []);
 
   const slideDuration = 6000;
   const progressStepMs = 40;
@@ -172,6 +181,8 @@ export default function HeroCarousel() {
           <img
             src={SLIDE_IMAGES[currentSlideIndex]}
             alt={SLIDE_ALTS[currentSlideIndex]}
+            loading="eager"
+            fetchPriority={currentSlideIndex === 0 ? 'high' : 'auto'}
             style={{
               width: '100%',
               height: '100%',

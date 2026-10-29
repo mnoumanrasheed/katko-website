@@ -54,6 +54,8 @@ export default function PageHero({
       <img
         src={imageSrc}
         alt={imageAlt}
+        loading="eager"
+        fetchPriority="high"
         style={{
           position: 'absolute',
           inset: 0,

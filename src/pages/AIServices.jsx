@@ -86,7 +86,7 @@ export default function AIServices() {
     >
       {/* Hero Section — Premium Background Image */}
       <PageHero
-        imageSrc="/images/page_ai_services-wide.png"
+        imageSrc="/images/page_ai_services-wide-optimized.jpg"
         imageAlt="Katko AI Engineering Services"
         eyebrow="Enterprise AI & Engineering"
         eyebrowIcon={<Cpu size={14} />}

@@ -67,7 +67,7 @@ export default function CustomerExperience() {
     >
       {/* Hero Section — Premium Background Image */}
       <PageHero
-        imageSrc="/images/page_cx-wide.png"
+        imageSrc="/images/page_cx-wide-optimized.jpg"
         imageAlt="Katko Customer Experience Solutions"
         eyebrow="Customer Experience Design"
         eyebrowIcon={<Users size={14} />}

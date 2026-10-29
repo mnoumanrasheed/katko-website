@@ -60,7 +60,7 @@ export default function RiskCompliance() {
     >
       {/* Hero Section — Premium Background Image */}
       <PageHero
-        imageSrc="/images/page_risk-wide.png"
+        imageSrc="/images/page_risk-wide-optimized.jpg"
         imageAlt="Katko Risk and Compliance Framework"
         eyebrow="Risk and Compliance"
         eyebrowIcon={<ShieldCheck size={14} />}
