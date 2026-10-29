@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://katko.co.za/sitemap.xml
