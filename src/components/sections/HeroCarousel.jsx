@@ -22,9 +22,9 @@ const SLIDE_IMAGES = [
 ];
 
 const SLIDE_ALTS = [
-  'NourDoc AI Medical Scribe — Ambient Clinical Documentation',
-  'LeadHive AI — Omnichannel Conversational Lead Intelligence',
-  'Katko AI & Product Engineering — Enterprise Software Architecture',
+  'NourDoc AI Medical Scribe - Ambient Clinical Documentation',
+  'LeadHive AI - Omnichannel Conversational Lead Intelligence',
+  'Katko AI & Product Engineering - Enterprise Software Architecture',
 ];
 
 export default function HeroCarousel() {
@@ -53,7 +53,7 @@ export default function HeroCarousel() {
       headline: 'Let AI Handle the Documentation. Let Doctors Focus on Care.',
       headlineHighlight: 'Let Doctors Focus on Care.',
       supportingCopy: 'Introduce AI-assisted clinical documentation that helps healthcare professionals capture consultations, generate structured notes and streamline documentation workflows.',
-      primaryCta: { label: 'Explore NourDoc', path: '/nourdoc' },
+      primaryCta: { label: 'Explore NourDoc', path: 'https://nour-doc.com/', external: true },
       secondaryCta: { label: 'Book a Demo', path: '/contact-us?enquiry=nourdoc' },
       tabNumber: '01',
       tabTitle: 'NourDoc',
@@ -66,7 +66,7 @@ export default function HeroCarousel() {
       headline: 'Turn Every Conversation into a Business Opportunity.',
       headlineHighlight: 'a Business Opportunity.',
       supportingCopy: 'Engage prospects, qualify leads and automate customer interactions across digital channels using AI-powered conversational workflows.',
-      primaryCta: { label: 'Explore LeadHive AI', path: '/leadhive-ai' },
+      primaryCta: { label: 'Explore LeadHive AI', path: 'https://www.leadhive-ai.com/', external: true },
       secondaryCta: { label: 'Request a Demo', path: '/contact-us?enquiry=leadhive' },
       tabNumber: '02',
       tabTitle: 'LeadHive AI',
@@ -182,7 +182,7 @@ export default function HeroCarousel() {
             src={SLIDE_IMAGES[currentSlideIndex]}
             alt={SLIDE_ALTS[currentSlideIndex]}
             loading="eager"
-            fetchPriority={currentSlideIndex === 0 ? 'high' : 'auto'}
+            fetchPriority={currentSlideIndex === 0 ? 'high' : 'auto'} decoding="async"
             style={{
               width: '100%',
               height: '100%',

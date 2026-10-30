@@ -25,6 +25,30 @@ export default function Button({
     </>
   );
 
+  // Handle in-page smooth scrolling anchor links (#id)
+  if (to && to.startsWith('#')) {
+    const handleAnchorClick = (e) => {
+      e.preventDefault();
+      if (onClick) onClick(e);
+      try {
+        const element = document.querySelector(to);
+        if (element) {
+          const y = element.getBoundingClientRect().top + window.pageYOffset - 80;
+          window.scrollTo({ top: y, behavior: 'smooth' });
+          window.history.pushState(null, '', to);
+        }
+      } catch {
+        // fallback
+      }
+    };
+
+    return (
+      <a href={to} className={classes} onClick={handleAnchorClick} {...props}>
+        {content}
+      </a>
+    );
+  }
+
   if (to) {
     return (
       <Link to={to} className={classes} onClick={onClick} {...props}>

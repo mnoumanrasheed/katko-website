@@ -62,10 +62,10 @@ export default function CustomerExperience() {
 
   return (
     <PageShell
-      title="Customer Experience — Research, UX/UI & Product Discovery"
+      title="Customer Experience - Research, UX/UI & Product Discovery"
       description="Katko crafts human-centered digital experiences, user journey mapping, design systems, wireframing, and usability validation for enterprise applications."
     >
-      {/* Hero Section — Premium Background Image */}
+      {/* Hero Section - Premium Background Image */}
       <PageHero
         imageSrc="/images/page_cx-wide-optimized.jpg"
         imageAlt="Katko Customer Experience Solutions"
@@ -74,7 +74,7 @@ export default function CustomerExperience() {
         headline="Design Experiences That Convert, Retain and Delight."
         subtext="Human-centred experience design, omnichannel journey mapping and digital touchpoint optimisation that drives measurable customer outcomes."
         primaryCta={{ label: 'Discuss CX Goals', to: '/contact-us?enquiry=cx' }}
-        secondaryCta={{ label: 'Our CX Capabilities', to: '#capabilities' }}
+        secondaryCta={{ label: 'Explore CX Solutions', to: '#capabilities' }}
         trustNote="Research-led design · Measurable CX outcomes"
       />
 

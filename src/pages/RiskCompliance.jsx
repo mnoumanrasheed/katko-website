@@ -55,10 +55,10 @@ export default function RiskCompliance() {
 
   return (
     <PageShell
-      title="Risk & Compliance — Governance, POPIA & Information Security"
+      title="Risk & Compliance - Governance, POPIA & Information Security"
       description="Katko's governance and security framework: data privacy, POPIA alignment where applicable, secure development, AI model oversight, and access controls."
     >
-      {/* Hero Section — Premium Background Image */}
+      {/* Hero Section - Premium Background Image */}
       <PageHero
         imageSrc="/images/page_risk-wide-optimized.jpg"
         imageAlt="Katko Risk and Compliance Framework"

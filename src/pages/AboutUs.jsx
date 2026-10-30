@@ -50,7 +50,7 @@ export default function AboutUs() {
     },
     {
       title: 'Human-Centered Governance',
-      description: 'We believe technology must empower human professionals—whether assisting a physician at bedside or supporting an account executive in customer discovery.'
+      description: 'We believe technology must empower human professionals - whether assisting a physician at bedside or supporting an account executive in customer discovery.'
     },
     {
       title: 'South African Roots, International Standard',
@@ -60,13 +60,13 @@ export default function AboutUs() {
 
   return (
     <PageShell
-      title="About Us — Company Story, Philosophy & Expertise"
+      title="About Us - Company Story, Philosophy & Expertise"
       description="Learn about Katko: our story, South African market positioning, engineering philosophy, and the industries we serve with modern AI solutions."
     >
-      {/* Hero Section — Premium Background Image */}
+      {/* Hero Section - Premium Background Image */}
       <PageHero
         imageSrc="/images/page_about-wide-optimized.jpg"
-        imageAlt="Katko — South African AI and Technology Company"
+        imageAlt="Katko - South African AI and Technology Company"
         eyebrow="About Katko"
         eyebrowIcon={<Building2 size={14} />}
         headline="Engineering AI-Driven Impact for South African Enterprise."
@@ -93,7 +93,7 @@ export default function AboutUs() {
               The proliferation of generic AI templates and ungrounded chat interfaces has left many organisations struggling with hallucinations, security questions, and poor user adoption. Katko was founded to provide an antidote: commercially disciplined, beautifully crafted software and domain-specific AI tools.
             </p>
             <p style={{ margin: 0 }}>
-              Through our flagship products—<strong>NourDoc</strong> for clinical documentation and <strong>LeadHive AI</strong> for conversational lead intelligence—and our bespoke engineering services, we partner with leadership teams to design, engineer, and deploy systems that deliver quantifiable operational impact.
+              Through our flagship products - <strong>NourDoc</strong> for clinical documentation and <strong>LeadHive AI</strong> for conversational lead intelligence - and our bespoke engineering services, we partner with leadership teams to design, engineer, and deploy systems that deliver quantifiable operational impact.
             </p>
           </div>
         </Container>

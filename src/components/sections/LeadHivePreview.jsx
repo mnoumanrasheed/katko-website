@@ -69,7 +69,7 @@ export default function LeadHivePreview() {
             </div>
 
             <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap' }}>
-              <Button to="/leadhive-ai" variant="primary" icon={<ArrowRight size={16} />}>
+              <Button href="https://www.leadhive-ai.com/" variant="primary" icon={<ArrowRight size={16} />}>
                 Explore LeadHive AI
               </Button>
               <Button to="/contact-us?enquiry=leadhive" variant="secondary">

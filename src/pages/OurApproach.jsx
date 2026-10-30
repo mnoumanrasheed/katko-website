@@ -26,17 +26,17 @@ export default function OurApproach() {
 
   return (
     <PageShell
-      title="Our Approach — End-to-End Six-Stage Delivery Lifecycle"
+      title="Our Approach - End-to-End Six-Stage Delivery Lifecycle"
       description="Learn about Katko's structured six-stage delivery model: Discover, Define, Design, Engineer, Validate, and Deploy/Optimise."
     >
-      {/* Hero Section — Premium Background Image */}
+      {/* Hero Section - Premium Background Image */}
       <PageHero
         imageSrc="/images/page_approach-wide-optimized.jpg"
         imageAlt="Katko Delivery Approach and Methodology"
         eyebrow="Delivery Methodology"
         eyebrowIcon={<Compass size={14} />}
         headline="A Disciplined Approach to Engineering Digital Impact."
-        subtext="Six rigorous stages from discovery to deployment — designed to reduce risk, ensure alignment and deliver production-ready AI and software solutions."
+        subtext="Six rigorous stages from discovery to deployment - designed to reduce risk, ensure alignment and deliver production-ready AI and software solutions."
         primaryCta={{ label: 'Discuss Your Project', to: '/contact-us' }}
         secondaryCta={{ label: 'See All Stages', to: '#lifecycle' }}
         trustNote="Transparent delivery · South African enterprise focus"

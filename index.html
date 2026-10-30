@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <link rel="icon" type="image/png" href="/logo.png" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Katko | AI &amp; Technology Solutions — NourDoc, LeadHive AI &amp; Engineering</title>
+    <title>Katko | AI &amp; Technology Solutions - NourDoc, LeadHive AI &amp; Engineering</title>
     <meta name="description" content="Katko delivers modern, enterprise-ready AI solutions, ambient clinical documentation with NourDoc, omnichannel lead intelligence with LeadHive AI, and bespoke software engineering." />
     <meta name="keywords" content="Katko, NourDoc, LeadHive AI, AI solutions, clinical documentation, healthcare AI, lead automation, South Africa software engineering, enterprise AI" />
     <meta name="author" content="Katko" />
@@ -16,13 +16,17 @@
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="theme-color" content="#20272D" />
     
+    <!-- Preload Critical Above-The-Fold Assets -->
+    <link rel="preload" as="image" href="/logo.png" fetchpriority="high" />
+    <link rel="preload" as="image" href="/images/hero_nourdoc-wide-optimized.jpg" fetchpriority="high" />
+
     <!-- Typography: Inter font -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
   </head>
   <body>
-    <!-- Premium Preloader — pure HTML/CSS, no React dependency -->
+    <!-- Premium Preloader - pure HTML/CSS, no React dependency -->
     <div id="katko-preloader" style="position:fixed;inset:0;background:#ffffff;z-index:999999;display:flex;flex-direction:column;align-items:center;justify-content:center;pointer-events:all;">
       <div style="position:absolute;width:400px;height:400px;border-radius:50%;background:radial-gradient(circle,rgba(243,140,19,0.08) 0%,rgba(255,255,255,0) 70%);top:50%;left:50%;transform:translate(-50%,-50%);pointer-events:none;"></div>
       <div style="position:relative;display:flex;flex-direction:column;align-items:center;z-index:2;">
@@ -41,7 +45,7 @@
         to   { transform: translateX(400%); }
       }
       #katko-preloader {
-        transition: opacity 0.65s cubic-bezier(0.16,1,0.3,1);
+        transition: opacity 0.3s cubic-bezier(0.16, 1, 0.3, 1);
       }
     </style>
     <div id="root"></div>

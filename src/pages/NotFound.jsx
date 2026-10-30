@@ -41,10 +41,10 @@ export default function NotFound() {
             <Button to="/" variant="primary" icon={<Home size={16} />}>
               Return to Homepage
             </Button>
-            <Button to="/nourdoc" variant="secondary">
+            <Button href="https://nour-doc.com/" variant="secondary">
               Explore NourDoc
             </Button>
-            <Button to="/leadhive-ai" variant="secondary">
+            <Button href="https://www.leadhive-ai.com/" variant="secondary">
               Explore LeadHive AI
             </Button>
             <Button to="/contact-us" variant="secondary">

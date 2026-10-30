@@ -81,10 +81,10 @@ export default function AIServices() {
 
   return (
     <PageShell
-      title="Artificial Intelligence Services — Agentic AI, RAG & Engineering"
+      title="Artificial Intelligence Services - Agentic AI, RAG & Engineering"
       description="Katko architects and implements enterprise AI systems, multi-agent orchestration, generative RAG platforms, and custom software engineering."
     >
-      {/* Hero Section — Premium Background Image */}
+      {/* Hero Section - Premium Background Image */}
       <PageHero
         imageSrc="/images/page_ai_services-wide-optimized.jpg"
         imageAlt="Katko AI Engineering Services"

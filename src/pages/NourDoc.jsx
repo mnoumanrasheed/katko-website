@@ -76,19 +76,19 @@ export default function NourDoc() {
 
   return (
     <PageShell
-      title="NourDoc — Ambient Clinical Intelligence & Documentation"
+      title="NourDoc - Ambient Clinical Intelligence & Documentation"
       description="NourDoc assists healthcare professionals in South Africa with ambient capture, automated SOAP note generation, and ICD-10 medical coding support."
     >
-      {/* Hero Section — Premium Background Image */}
+      {/* Hero Section - Premium Background Image */}
       <PageHero
         imageSrc="/images/page_nourdoc-wide-optimized.jpg"
-        imageAlt="NourDoc — AI Clinical Documentation"
+        imageAlt="NourDoc - AI Clinical Documentation"
         eyebrow="Healthcare AI Solution"
         eyebrowIcon={<Stethoscope size={14} />}
         headline="Let AI Handle the Documentation. Let Doctors Focus on Care."
         subtext="Introduce AI-assisted clinical documentation that helps healthcare professionals capture consultations, generate structured notes and streamline documentation workflows."
         primaryCta={{ label: 'Book a NourDoc Demo', to: '/contact-us?enquiry=nourdoc' }}
-        secondaryCta={{ label: 'Explore Capabilities', to: '#features' }}
+        secondaryCta={{ label: 'Explore Capabilities', href: 'https://nour-doc.com/' }}
         trustNote="POPIA-aligned · Mandatory physician review before record commit"
       />
 

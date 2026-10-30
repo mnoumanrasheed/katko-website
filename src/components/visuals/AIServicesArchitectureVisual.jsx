@@ -1,456 +1,453 @@
-import React, { useState, useEffect } from 'react';
-import { 
-  Cpu, 
-  Database, 
-  Network, 
-  ShieldCheck, 
-  Workflow, 
-  ArrowRight, 
-  CheckCircle2, 
-  SlidersHorizontal 
+import React, { useState, useEffect, useRef } from 'react';
+import {
+  Database,
+  Cpu,
+  Network,
+  ShieldCheck,
+  ArrowRight,
+  CheckCircle2,
+  Zap,
+  Activity,
+  Terminal,
+  Lock,
+  ChevronRight
 } from 'lucide-react';
 
-export default function AIServicesArchitectureVisual({ compact = false, theme = 'light' }) {
-  const [activeTier, setActiveTier] = useState(1); // 0, 1, 2, 3
-  const [isPaused, setIsPaused] = useState(false);
+const STAGES = [
+  {
+    id: '01',
+    phase: 'GROUNDING',
+    title: 'Data & Knowledge Retrieval',
+    icon: Database,
+    accent: '#F38C13',
+    accentBg: 'rgba(243, 140, 19, 0.1)',
+    badgeBorder: 'rgba(243, 140, 19, 0.3)',
+    summary: 'Direct connectors into SQL warehouses, ERP registries, and secure document repositories with hybrid dense-sparse semantic retrieval.',
+    telemetry: {
+      latency: '42ms',
+      mode: 'Hybrid Dense + Lexical',
+      compliance: 'In-Memory Masking'
+    },
+    capabilities: [
+      'Zero-leakage private vector embedding pipelines',
+      'Automated POPIA PII token redaction before indexing',
+      'Sub-50ms hybrid dense-sparse vector recall'
+    ]
+  },
+  {
+    id: '02',
+    phase: 'ORCHESTRATION',
+    title: 'Agentic Task Planner',
+    icon: Cpu,
+    accent: '#FFB84D',
+    accentBg: 'rgba(255, 184, 77, 0.1)',
+    badgeBorder: 'rgba(255, 184, 77, 0.3)',
+    summary: 'Decomposes unstructured multi-step enterprise workflows into deterministic atomic sub-tasks with stateful execution memory.',
+    telemetry: {
+      latency: '95ms',
+      mode: 'LangGraph Hierarchy',
+      compliance: 'Stateful Checkpoints'
+    },
+    capabilities: [
+      'Self-reflective validation & reasoning loops',
+      'Context-aware dynamic tool dispatch and schema locks',
+      'Fault-tolerant rollback & error recovery swarms'
+    ]
+  },
+  {
+    id: '03',
+    phase: 'EXECUTION',
+    title: 'Domain Worker Swarms',
+    icon: Network,
+    accent: '#38BDF8',
+    accentBg: 'rgba(56, 189, 248, 0.1)',
+    badgeBorder: 'rgba(56, 189, 248, 0.3)',
+    summary: 'Parallelized worker agents that concurrently generate structured documents, execute validated SQL, and perform peer validation.',
+    telemetry: {
+      latency: '110ms',
+      mode: 'Parallel Swarm Workers',
+      compliance: 'Sandboxed Runtime'
+    },
+    capabilities: [
+      'Deterministic code and API query execution',
+      'Cross-agent consensus verification before output release',
+      'Automated citation grounding to source documentation'
+    ]
+  },
+  {
+    id: '04',
+    phase: 'GOVERNANCE',
+    title: 'Deterministic Guardrails',
+    icon: ShieldCheck,
+    accent: '#34D399',
+    accentBg: 'rgba(52, 211, 153, 0.1)',
+    badgeBorder: 'rgba(52, 211, 153, 0.3)',
+    summary: 'Strict output validation gates ensuring zero hallucinations, cryptographic audit trails, and high-throughput production API delivery.',
+    telemetry: {
+      latency: '18ms',
+      mode: 'Strict JSON Schema',
+      compliance: 'SOC2 / POPIA Certified'
+    },
+    capabilities: [
+      'Pre- and post-generation injection protection',
+      'Immutable audit logging for compliance verification',
+      'Zero client data training on public foundation models'
+    ]
+  }
+];
 
+export default function AIServicesArchitectureVisual({ compact = false }) {
+  const [activeStage, setActiveStage] = useState(0);
+  const [isPaused, setIsPaused] = useState(false);
+  const [animKey, setAnimKey] = useState(0);
+
+  // Auto-cycle through pipeline stages every 6 seconds
   useEffect(() => {
     if (isPaused) return;
 
     const interval = setInterval(() => {
-      setActiveTier((prevTier) => (prevTier + 1) % 4);
-    }, 7000);
+      setActiveStage(prev => {
+        const next = (prev + 1) % STAGES.length;
+        setAnimKey(k => k + 1);
+        return next;
+      });
+    }, 6000);
 
     return () => clearInterval(interval);
   }, [isPaused]);
 
-  const isLight = theme === 'light';
+  const selectStage = (idx) => {
+    setActiveStage(idx);
+    setAnimKey(k => k + 1);
+  };
 
-  const tierDetails = [
-    {
-      title: "Data & Knowledge Grounding",
-      role: "Enterprise Data Ingestion & Indexing",
-      summary: "Connects internal databases, ERP records, and secure docstores into hybrid dense-sparse vector indexes. Ensures all downstream model responses are strictly grounded in verified institutional data.",
-      specs: ["Hybrid Semantic + Lexical Search", "POPIA Data Masking at Ingestion", "Sub-100ms Embedding Retrieval"]
-    },
-    {
-      title: "Agentic Planner & Orchestrator",
-      role: "Cognitive Task Decomposition & Routing",
-      summary: "Central coordination engine that decomposes complex user intents into atomic, verifiable sub-tasks. Dynamically selects domain tools and maintains stateful execution memory.",
-      specs: ["LangGraph / Custom Planner Hierarchy", "Self-Correction & Reflection Loops", "Persistent Conversation State"]
-    },
-    {
-      title: "Specialised Domain Swarms",
-      role: "Autonomous Execution & Synthesis",
-      summary: "Distributed worker agents operating concurrently to synthesize documents, execute verified code/queries, and perform cross-agent peer verification before final approval.",
-      specs: ["Parallel Worker Orchestration", "Deterministic Tool Calling", "Automated Peer Validation Sub-Agent"]
-    },
-    {
-      title: "Governance & Output Delivery",
-      role: "Zero-Hallucination Guardrails & API",
-      summary: "Strict verification gates enforce schema validation, prevent prompt-injection attacks, and redact PII. Delivers production-grade JSON, WebSocket, or REST payloads to enterprise apps.",
-      specs: ["Strict Output Schema Conformance", "Pre & Post Execution Guardrails", "SOC2 / Audit Log Trail"]
-    }
-  ];
+  const current = STAGES[activeStage];
 
   return (
-    <div 
+    <div
       onMouseEnter={() => setIsPaused(true)}
       onMouseLeave={() => setIsPaused(false)}
       style={{
-        backgroundColor: isLight ? '#FFFFFF' : 'var(--color-charcoal-deep)',
-        borderRadius: 'var(--radius-xl)',
-        border: isLight ? '1px solid #E2E8F0' : '1px solid var(--color-charcoal-border)',
-        boxShadow: isLight 
-          ? '0 20px 45px -12px rgba(32, 39, 45, 0.08), 0 1px 3px rgba(32, 39, 45, 0.04)' 
-          : 'var(--shadow-elevated)',
-        padding: compact ? '1.25rem' : '2.25rem',
-        color: isLight ? 'var(--text-primary)' : 'var(--text-on-dark)',
-        position: 'relative',
+        backgroundColor: '#FFFFFF',
+        borderRadius: '24px',
+        border: '1px solid #E2E8F0',
+        boxShadow: '0 25px 65px -12px rgba(15, 23, 42, 0.09), 0 1px 3px rgba(15, 23, 42, 0.04)',
         overflow: 'hidden',
+        position: 'relative',
         width: '100%',
-        transition: 'all var(--transition-normal)'
+        color: '#0F172A',
+        fontFamily: 'Inter, system-ui, sans-serif'
       }}
     >
-      {/* Background Architectural Grid Lines */}
-      <div 
+      {/* Background Ambient Radiance */}
+      <div
         style={{
           position: 'absolute',
-          top: 0,
-          left: 0,
-          right: 0,
-          bottom: 0,
-          backgroundImage: isLight 
-            ? 'radial-gradient(rgba(32, 39, 45, 0.08) 1.2px, transparent 1.2px)' 
-            : 'radial-gradient(rgba(243, 140, 19, 0.08) 1px, transparent 1px)',
-          backgroundSize: '24px 24px',
+          top: '-80px',
+          left: '30%',
+          width: '500px',
+          height: '250px',
+          borderRadius: '50%',
+          background: 'radial-gradient(ellipse at center, rgba(243, 140, 19, 0.08) 0%, transparent 70%)',
+          filter: 'blur(50px)',
           pointerEvents: 'none',
-          opacity: isLight ? 0.6 : 1
+          zIndex: 0
         }}
       />
 
-      {/* Top Header / Control Bar */}
-      <div 
-        style={{ 
-          display: 'flex', 
-          alignItems: 'center', 
-          justifyContent: 'space-between', 
+      {/* Top Application Control Bar */}
+      <div
+        style={{
+          padding: '0.95rem 1.5rem',
+          borderBottom: '1px solid #F1F5F9',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'space-between',
           flexWrap: 'wrap',
           gap: '1rem',
-          marginBottom: '2rem', 
-          position: 'relative', 
-          zIndex: 2,
-          paddingBottom: '1.25rem',
-          borderBottom: isLight ? '1px solid #EDF2F7' : '1px solid rgba(255, 255, 255, 0.08)'
+          backgroundColor: '#FAFCFE',
+          position: 'relative',
+          zIndex: 1
         }}
       >
         <div style={{ display: 'flex', alignItems: 'center', gap: '0.85rem' }}>
-          <div 
-            style={{
-              width: 38,
-              height: 38,
-              borderRadius: 'var(--radius-md)',
-              backgroundColor: isLight ? 'rgba(243, 140, 19, 0.12)' : 'rgba(243, 140, 19, 0.15)',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center'
-            }}
-          >
-            <Workflow size={22} color="var(--color-orange)" />
+          <div style={{ display: 'flex', gap: '6px' }}>
+            <span style={{ width: 10, height: 10, borderRadius: '50%', backgroundColor: '#FF5F56' }} />
+            <span style={{ width: 10, height: 10, borderRadius: '50%', backgroundColor: '#FFBD2E' }} />
+            <span style={{ width: 10, height: 10, borderRadius: '50%', backgroundColor: '#27C93F' }} />
           </div>
-          <div>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-              <h4 style={{ margin: 0, fontSize: '1.05rem', fontWeight: 700, color: isLight ? 'var(--color-charcoal)' : 'var(--color-white)' }}>
-                Enterprise Multi-Agent &amp; RAG Architecture
-              </h4>
-              <span 
-                style={{
-                  fontSize: '0.7rem',
-                  fontWeight: 700,
-                  textTransform: 'uppercase',
-                  letterSpacing: '0.06em',
-                  padding: '0.15rem 0.5rem',
-                  borderRadius: 'var(--radius-full)',
-                  backgroundColor: isLight ? '#F1F5F9' : 'rgba(255, 255, 255, 0.08)',
-                  color: isLight ? '#475569' : 'var(--text-on-dark-muted)'
-                }}
-              >
-                v2.6 Topology
-              </span>
-            </div>
-            <p style={{ margin: '0.2rem 0 0 0', fontSize: '0.82rem', color: isLight ? 'var(--text-secondary)' : 'var(--text-on-dark-muted)' }}>
-              Orchestrated Workflows · Grounded Knowledge Retrieval · Strict Guardrails
-            </p>
+          <div style={{ width: 1, height: 14, backgroundColor: '#E2E8F0', margin: '0 0.15rem' }} />
+          <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+            <Terminal size={14} color="#F38C13" />
+            <span style={{ fontSize: '0.84rem', fontWeight: 800, color: '#0F172A', letterSpacing: '-0.01em' }}>
+              Katko AI Systems Architecture
+            </span>
+            <span style={{
+              fontSize: '0.64rem',
+              fontWeight: 700,
+              padding: '0.12rem 0.5rem',
+              borderRadius: '999px',
+              backgroundColor: '#FFF7ED',
+              color: '#C2410C',
+              border: '1px solid #FFEDD5'
+            }}>
+              v2.8 Enterprise
+            </span>
           </div>
         </div>
 
-        {/* Live Status Badge */}
-        <div 
-          style={{
-            display: 'inline-flex',
-            alignItems: 'center',
-            gap: '0.5rem',
-            backgroundColor: isLight ? '#ECFDF5' : 'rgba(16, 185, 129, 0.12)',
-            border: isLight ? '1px solid #A7F3D0' : '1px solid rgba(16, 185, 129, 0.3)',
-            color: '#059669',
-            padding: '0.35rem 0.85rem',
-            borderRadius: 'var(--radius-full)',
-            fontSize: '0.76rem',
-            fontWeight: 600,
-            boxShadow: isLight ? '0 1px 2px rgba(16, 185, 129, 0.1)' : 'none'
-          }}
-        >
-          <span 
+        {/* Real-time Telemetry Badge */}
+        <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem' }}>
+          <span
             style={{
-              width: 7,
-              height: 7,
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: '0.45rem',
+              backgroundColor: '#ECFDF5',
+              border: '1px solid #A7F3D0',
+              color: '#059669',
+              fontSize: '0.72rem',
+              fontWeight: 700,
+              padding: '0.22rem 0.7rem',
+              borderRadius: '999px'
+            }}
+          >
+            <span style={{
+              width: 6,
+              height: 6,
               borderRadius: '50%',
               backgroundColor: '#10B981',
               display: 'inline-block',
-              boxShadow: '0 0 0 3px rgba(16, 185, 129, 0.25)'
-            }} 
-          />
-          Production Architecture · Zero Data Leakage
+              boxShadow: '0 0 6px #10B981'
+            }} />
+            Zero Data Leakage · Production Enforced
+          </span>
         </div>
       </div>
 
-      {/* Architectural Pipeline Flow (4-Tier Grid) */}
-      <div 
+      {/* ── 4 PIPELINE ARCHITECTURE TILES ── */}
+      <div
         style={{
           display: 'grid',
           gridTemplateColumns: compact ? '1fr' : 'repeat(4, 1fr)',
-          gap: '1.25rem',
+          borderBottom: '1px solid #F1F5F9',
           position: 'relative',
-          zIndex: 2,
-          marginBottom: '1.75rem'
+          zIndex: 1
         }}
       >
-        {/* Tier 1: Data & Knowledge Ingestion */}
-        <div 
-          onClick={() => setActiveTier(0)}
-          style={{
-            backgroundColor: isLight 
-              ? (activeTier === 0 ? '#FEFCE8' : '#F8FAFC') 
-              : (activeTier === 0 ? 'rgba(248, 191, 0, 0.12)' : 'var(--color-charcoal-surface)'),
-            borderRadius: 'var(--radius-md)',
-            border: activeTier === 0 
-              ? '2px solid var(--color-amber)' 
-              : (isLight ? '1px solid #E2E8F0' : '1px solid var(--color-charcoal-border)'),
-            padding: '1.25rem 1rem',
-            display: 'flex',
-            flexDirection: 'column',
-            gap: '0.85rem',
-            cursor: 'pointer',
-            transition: 'all var(--transition-fast)',
-            transform: activeTier === 0 ? 'translateY(-2px)' : 'none',
-            boxShadow: activeTier === 0 && isLight ? '0 8px 20px -4px rgba(248, 191, 0, 0.15)' : 'none'
-          }}
-        >
-          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', color: '#B45309' }}>
-              <Database size={17} />
-              <span style={{ fontSize: '0.84rem', fontWeight: 700, color: isLight ? '#92400E' : 'var(--color-amber)' }}>
-                01. Ingestion &amp; RAG
-              </span>
-            </div>
-            <span style={{ fontSize: '0.65rem', fontWeight: 700, padding: '0.15rem 0.4rem', borderRadius: 4, backgroundColor: isLight ? '#FEF3C7' : 'rgba(248,191,0,0.2)', color: '#92400E' }}>
-              GROUNDING
-            </span>
-          </div>
-
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '0.45rem', fontSize: '0.78rem' }}>
-            <div style={{ padding: '0.5rem 0.65rem', backgroundColor: isLight ? '#FFFFFF' : 'rgba(255,255,255,0.04)', borderRadius: 'var(--radius-sm)', border: isLight ? '1px solid #E2E8F0' : '1px solid rgba(255,255,255,0.06)', fontWeight: 500, color: isLight ? '#1E293B' : 'var(--color-white)' }}>
-              Enterprise SQL / ERP Grounding
-            </div>
-            <div style={{ padding: '0.5rem 0.65rem', backgroundColor: isLight ? '#FFFFFF' : 'rgba(255,255,255,0.04)', borderRadius: 'var(--radius-sm)', border: isLight ? '1px solid #E2E8F0' : '1px solid rgba(255,255,255,0.06)', fontWeight: 500, color: isLight ? '#1E293B' : 'var(--color-white)' }}>
-              Vector Store &amp; Embeddings
-            </div>
-            <div style={{ padding: '0.5rem 0.65rem', backgroundColor: isLight ? '#FFFFFF' : 'rgba(255,255,255,0.04)', borderRadius: 'var(--radius-sm)', border: isLight ? '1px solid #E2E8F0' : '1px solid rgba(255,255,255,0.06)', fontWeight: 500, color: isLight ? '#1E293B' : 'var(--color-white)' }}>
-              Hybrid Semantic Search
-            </div>
-          </div>
-
-          <div style={{ marginTop: 'auto', paddingTop: '0.5rem', display: 'flex', alignItems: 'center', justifyContent: 'space-between', fontSize: '0.72rem', color: isLight ? '#64748B' : 'var(--text-on-dark-muted)' }}>
-            <span>Ground Truth Data</span>
-            <ArrowRight size={13} color={isLight ? '#94A3B8' : 'var(--text-on-dark-muted)'} />
-          </div>
-        </div>
-
-        {/* Tier 2: Agentic Orchestration */}
-        <div 
-          onClick={() => setActiveTier(1)}
-          style={{
-            backgroundColor: isLight 
-              ? (activeTier === 1 ? '#FFF7ED' : '#F8FAFC') 
-              : (activeTier === 1 ? 'rgba(243, 140, 19, 0.18)' : 'var(--color-charcoal-surface)'),
-            borderRadius: 'var(--radius-md)',
-            border: activeTier === 1 
-              ? '2px solid var(--color-orange)' 
-              : (isLight ? '1px solid rgba(243, 140, 19, 0.35)' : '1px solid rgba(243, 140, 19, 0.4)'),
-            padding: '1.25rem 1rem',
-            display: 'flex',
-            flexDirection: 'column',
-            gap: '0.85rem',
-            cursor: 'pointer',
-            transition: 'all var(--transition-fast)',
-            transform: activeTier === 1 ? 'translateY(-2px)' : 'none',
-            boxShadow: activeTier === 1 && isLight ? '0 8px 20px -4px rgba(243, 140, 19, 0.18)' : 'none'
-          }}
-        >
-          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', color: 'var(--color-orange)' }}>
-              <Cpu size={17} />
-              <span style={{ fontSize: '0.84rem', fontWeight: 700, color: isLight ? '#C2410C' : 'var(--color-orange)' }}>
-                02. Orchestration
-              </span>
-            </div>
-            <span style={{ fontSize: '0.65rem', fontWeight: 700, padding: '0.15rem 0.4rem', borderRadius: 4, backgroundColor: isLight ? '#FFEDD5' : 'rgba(243,140,19,0.25)', color: '#C2410C' }}>
-              PLANNER
-            </span>
-          </div>
-
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '0.45rem', fontSize: '0.78rem' }}>
-            <div style={{ padding: '0.5rem 0.65rem', backgroundColor: isLight ? '#FFFFFF' : 'rgba(243,140,19,0.08)', borderRadius: 'var(--radius-sm)', border: isLight ? '1px solid #FED7AA' : '1px solid rgba(243,140,19,0.2)', fontWeight: 600, color: isLight ? '#9A3412' : 'var(--color-white)' }}>
-              Intent Decomposition Engine
-            </div>
-            <div style={{ padding: '0.5rem 0.65rem', backgroundColor: isLight ? '#FFFFFF' : 'rgba(243,140,19,0.08)', borderRadius: 'var(--radius-sm)', border: isLight ? '1px solid #FED7AA' : '1px solid rgba(243,140,19,0.2)', fontWeight: 600, color: isLight ? '#9A3412' : 'var(--color-white)' }}>
-              Task Routing &amp; Tool Dispatch
-            </div>
-            <div style={{ padding: '0.5rem 0.65rem', backgroundColor: isLight ? '#FFFFFF' : 'rgba(243,140,19,0.08)', borderRadius: 'var(--radius-sm)', border: isLight ? '1px solid #FED7AA' : '1px solid rgba(243,140,19,0.2)', fontWeight: 600, color: isLight ? '#9A3412' : 'var(--color-white)' }}>
-              Stateful Execution Memory
-            </div>
-          </div>
-
-          <div style={{ marginTop: 'auto', paddingTop: '0.5rem', display: 'flex', alignItems: 'center', justifyContent: 'space-between', fontSize: '0.72rem', color: isLight ? '#C2410C' : 'var(--color-orange)', fontWeight: 600 }}>
-            <span>Dynamic Coordination</span>
-            <ArrowRight size={13} color={isLight ? '#EA580C' : 'var(--color-orange)'} />
-          </div>
-        </div>
-
-        {/* Tier 3: Specialized Worker Agents */}
-        <div 
-          onClick={() => setActiveTier(2)}
-          style={{
-            backgroundColor: isLight 
-              ? (activeTier === 2 ? '#EFF6FF' : '#F8FAFC') 
-              : (activeTier === 2 ? 'rgba(59, 130, 246, 0.15)' : 'var(--color-charcoal-surface)'),
-            borderRadius: 'var(--radius-md)',
-            border: activeTier === 2 
-              ? '2px solid #2563EB' 
-              : (isLight ? '1px solid #E2E8F0' : '1px solid var(--color-charcoal-border)'),
-            padding: '1.25rem 1rem',
-            display: 'flex',
-            flexDirection: 'column',
-            gap: '0.85rem',
-            cursor: 'pointer',
-            transition: 'all var(--transition-fast)',
-            transform: activeTier === 2 ? 'translateY(-2px)' : 'none',
-            boxShadow: activeTier === 2 && isLight ? '0 8px 20px -4px rgba(37, 99, 235, 0.15)' : 'none'
-          }}
-        >
-          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', color: '#1D4ED8' }}>
-              <Network size={17} />
-              <span style={{ fontSize: '0.84rem', fontWeight: 700, color: isLight ? '#1E40AF' : '#60A5FA' }}>
-                03. Domain Swarms
-              </span>
-            </div>
-            <span style={{ fontSize: '0.65rem', fontWeight: 700, padding: '0.15rem 0.4rem', borderRadius: 4, backgroundColor: isLight ? '#DBEAFE' : 'rgba(59,130,246,0.2)', color: '#1E40AF' }}>
-              EXECUTION
-            </span>
-          </div>
-
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '0.45rem', fontSize: '0.78rem' }}>
-            <div style={{ padding: '0.5rem 0.65rem', backgroundColor: isLight ? '#FFFFFF' : 'rgba(255,255,255,0.04)', borderRadius: 'var(--radius-sm)', border: isLight ? '1px solid #E2E8F0' : '1px solid rgba(255,255,255,0.06)', fontWeight: 500, color: isLight ? '#1E293B' : 'var(--color-white)' }}>
-              Synthesis &amp; Drafting Agents
-            </div>
-            <div style={{ padding: '0.5rem 0.65rem', backgroundColor: isLight ? '#FFFFFF' : 'rgba(255,255,255,0.04)', borderRadius: 'var(--radius-sm)', border: isLight ? '1px solid #E2E8F0' : '1px solid rgba(255,255,255,0.06)', fontWeight: 500, color: isLight ? '#1E293B' : 'var(--color-white)' }}>
-              Code &amp; Query Executor
-            </div>
-            <div style={{ padding: '0.5rem 0.65rem', backgroundColor: isLight ? '#FFFFFF' : 'rgba(255,255,255,0.04)', borderRadius: 'var(--radius-sm)', border: isLight ? '1px solid #E2E8F0' : '1px solid rgba(255,255,255,0.06)', fontWeight: 500, color: isLight ? '#1E293B' : 'var(--color-white)' }}>
-              Cross-Verification Sub-Agent
-            </div>
-          </div>
-
-          <div style={{ marginTop: 'auto', paddingTop: '0.5rem', display: 'flex', alignItems: 'center', justifyContent: 'space-between', fontSize: '0.72rem', color: isLight ? '#64748B' : 'var(--text-on-dark-muted)' }}>
-            <span>Verified Outputs</span>
-            <ArrowRight size={13} color={isLight ? '#94A3B8' : 'var(--text-on-dark-muted)'} />
-          </div>
-        </div>
-
-        {/* Tier 4: Governance & Enterprise Delivery */}
-        <div 
-          onClick={() => setActiveTier(3)}
-          style={{
-            backgroundColor: isLight 
-              ? (activeTier === 3 ? '#F0FDF4' : '#F8FAFC') 
-              : (activeTier === 3 ? 'rgba(16, 185, 129, 0.15)' : 'var(--color-charcoal-surface)'),
-            borderRadius: 'var(--radius-md)',
-            border: activeTier === 3 
-              ? '2px solid #059669' 
-              : (isLight ? '1px solid #E2E8F0' : '1px solid var(--color-charcoal-border)'),
-            padding: '1.25rem 1rem',
-            display: 'flex',
-            flexDirection: 'column',
-            gap: '0.85rem',
-            cursor: 'pointer',
-            transition: 'all var(--transition-fast)',
-            transform: activeTier === 3 ? 'translateY(-2px)' : 'none',
-            boxShadow: activeTier === 3 && isLight ? '0 8px 20px -4px rgba(5, 150, 105, 0.15)' : 'none'
-          }}
-        >
-          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', color: '#047857' }}>
-              <ShieldCheck size={17} />
-              <span style={{ fontSize: '0.84rem', fontWeight: 700, color: isLight ? '#065F46' : '#10B981' }}>
-                04. Governance &amp; API
-              </span>
-            </div>
-            <span style={{ fontSize: '0.65rem', fontWeight: 700, padding: '0.15rem 0.4rem', borderRadius: 4, backgroundColor: isLight ? '#D1FAE5' : 'rgba(16,185,129,0.2)', color: '#065F46' }}>
-              TRUST &amp; SEC
-            </span>
-          </div>
-
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '0.45rem', fontSize: '0.78rem' }}>
-            <div style={{ padding: '0.5rem 0.65rem', backgroundColor: isLight ? '#FFFFFF' : 'rgba(16,185,129,0.08)', borderRadius: 'var(--radius-sm)', border: isLight ? '1px solid #A7F3D0' : '1px solid rgba(16,185,129,0.2)', fontWeight: 500, color: isLight ? '#064E3B' : 'var(--color-white)' }}>
-              Deterministic Guardrails
-            </div>
-            <div style={{ padding: '0.5rem 0.65rem', backgroundColor: isLight ? '#FFFFFF' : 'rgba(16,185,129,0.08)', borderRadius: 'var(--radius-sm)', border: isLight ? '1px solid #A7F3D0' : '1px solid rgba(16,185,129,0.2)', fontWeight: 500, color: isLight ? '#064E3B' : 'var(--color-white)' }}>
-              POPIA Data Masking
-            </div>
-            <div style={{ padding: '0.5rem 0.65rem', backgroundColor: isLight ? '#FFFFFF' : 'rgba(16,185,129,0.08)', borderRadius: 'var(--radius-sm)', border: isLight ? '1px solid #A7F3D0' : '1px solid rgba(16,185,129,0.2)', fontWeight: 500, color: isLight ? '#064E3B' : 'var(--color-white)' }}>
-              High-Throughput REST APIs
-            </div>
-          </div>
-
-          <div style={{ marginTop: 'auto', paddingTop: '0.5rem', display: 'flex', alignItems: 'center', justifyContent: 'space-between', fontSize: '0.72rem', color: isLight ? '#047857' : '#10B981', fontWeight: 600 }}>
-            <span>Compliant Delivery</span>
-            <CheckCircle2 size={13} color={isLight ? '#059669' : '#10B981'} />
-          </div>
-        </div>
-      </div>
-
-      {/* Interactive Architecture Inspector Panel */}
-      <div 
-        style={{
-          backgroundColor: isLight ? '#F8FAFC' : 'rgba(255, 255, 255, 0.03)',
-          border: isLight ? '1px solid #E2E8F0' : '1px solid rgba(255, 255, 255, 0.08)',
-          borderRadius: 'var(--radius-md)',
-          padding: '1.25rem 1.5rem',
-          display: 'flex',
-          flexDirection: 'column',
-          gap: '0.75rem',
-          position: 'relative',
-          zIndex: 2
-        }}
-      >
-        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '0.75rem' }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem' }}>
-            <SlidersHorizontal size={15} color="var(--color-orange)" />
-            <span style={{ fontSize: '0.82rem', fontWeight: 700, color: isLight ? 'var(--color-charcoal)' : 'var(--color-white)' }}>
-              Layer Inspector: <span style={{ color: 'var(--color-orange)' }}>{tierDetails[activeTier].title}</span>
-            </span>
-            <span style={{ fontSize: '0.75rem', color: isLight ? '#64748B' : 'var(--text-on-dark-muted)' }}>
-              — {tierDetails[activeTier].role}
-            </span>
-          </div>
-          <span style={{ fontSize: '0.72rem', color: isLight ? '#94A3B8' : 'var(--text-on-dark-muted)', fontStyle: 'italic' }}>
-            Click any column above to inspect specifications
-          </span>
-        </div>
-
-        <p style={{ margin: 0, fontSize: '0.86rem', color: isLight ? 'var(--text-secondary)' : 'var(--text-on-dark-secondary)', lineHeight: 1.6 }}>
-          {tierDetails[activeTier].summary}
-        </p>
-
-        <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.5rem', marginTop: '0.25rem' }}>
-          {tierDetails[activeTier].specs.map((spec, i) => (
-            <span 
-              key={i}
+        {STAGES.map((s, idx) => {
+          const Icon = s.icon;
+          const isActive = activeStage === idx;
+          return (
+            <div
+              key={s.id}
+              onClick={() => selectStage(idx)}
               style={{
-                display: 'inline-flex',
-                alignItems: 'center',
-                gap: '0.35rem',
-                fontSize: '0.74rem',
-                fontWeight: 600,
-                padding: '0.25rem 0.65rem',
-                borderRadius: 'var(--radius-full)',
-                backgroundColor: isLight ? '#FFFFFF' : 'rgba(255, 255, 255, 0.06)',
-                border: isLight ? '1px solid #CBD5E1' : '1px solid rgba(255, 255, 255, 0.1)',
-                color: isLight ? '#334155' : 'var(--color-white)'
+                padding: '1.25rem 1.15rem',
+                borderRight: idx < 3 ? '1px solid #F1F5F9' : 'none',
+                cursor: 'pointer',
+                backgroundColor: isActive ? '#FFFFFF' : '#FAFCFE',
+                borderBottom: isActive ? `3px solid ${s.accent}` : '3px solid transparent',
+                transition: 'all 0.25s cubic-bezier(0.16, 1, 0.3, 1)',
+                display: 'flex',
+                flexDirection: 'column',
+                gap: '0.65rem'
               }}
             >
-              <CheckCircle2 size={12} color="var(--color-orange)" />
-              {spec}
+              {/* Tile Header */}
+              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                  <div
+                    style={{
+                      width: 28,
+                      height: 28,
+                      borderRadius: '6px',
+                      backgroundColor: isActive ? s.accent : '#F1F5F9',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      color: isActive ? '#000000' : '#64748B',
+                      transition: 'all 0.25s'
+                    }}
+                  >
+                    <Icon size={14} />
+                  </div>
+                  <span style={{
+                    fontSize: '0.76rem',
+                    fontWeight: 700,
+                    color: isActive ? '#0F172A' : '#64748B',
+                    letterSpacing: '-0.01em'
+                  }}>
+                    {s.id}. {s.title}
+                  </span>
+                </div>
+              </div>
+
+              {/* Phase Chip */}
+              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                <span style={{
+                  fontSize: '0.64rem',
+                  fontWeight: 800,
+                  color: isActive ? s.accent : '#94A3B8',
+                  letterSpacing: '0.08em',
+                  textTransform: 'uppercase'
+                }}>
+                  {s.phase}
+                </span>
+                <span style={{
+                  fontSize: '0.68rem',
+                  color: isActive ? s.accent : '#94A3B8',
+                  fontFamily: 'monospace',
+                  fontWeight: 600
+                }}>
+                  {s.telemetry.latency}
+                </span>
+              </div>
+            </div>
+          );
+        })}
+      </div>
+
+      {/* ── EXPANDED INSPECTION TELEMETRY CONSOLE ── */}
+      <div
+        key={animKey}
+        style={{
+          padding: '1.5rem',
+          display: 'grid',
+          gridTemplateColumns: compact ? '1fr' : '1.3fr 1fr',
+          gap: '1.5rem',
+          alignItems: 'center',
+          animation: 'telemetryFade 0.35s cubic-bezier(0.16, 1, 0.3, 1) both',
+          position: 'relative',
+          zIndex: 1
+        }}
+      >
+        {/* Left: Detailed Overview */}
+        <div>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem', marginBottom: '0.65rem' }}>
+            <span
+              style={{
+                backgroundColor: current.accentBg,
+                color: current.accent,
+                border: `1px solid ${current.badgeBorder}`,
+                padding: '0.2rem 0.6rem',
+                borderRadius: '4px',
+                fontSize: '0.68rem',
+                fontWeight: 800,
+                letterSpacing: '0.08em',
+                textTransform: 'uppercase'
+              }}
+            >
+              ACTIVE PIPELINE TIER · {current.phase}
             </span>
-          ))}
+          </div>
+
+          <h4 style={{ fontSize: '1.25rem', fontWeight: 800, color: '#0F172A', marginBottom: '0.6rem', letterSpacing: '-0.02em' }}>
+            {current.title}
+          </h4>
+
+          <p style={{ fontSize: '0.86rem', color: '#475569', lineHeight: 1.6, marginBottom: '1.25rem' }}>
+            {current.summary}
+          </p>
+
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '0.45rem' }}>
+            {current.capabilities.map((cap, i) => (
+              <div key={i} style={{ display: 'flex', alignItems: 'center', gap: '0.55rem', fontSize: '0.78rem', color: '#334155' }}>
+                <CheckCircle2 size={13} color={current.accent} style={{ flexShrink: 0 }} />
+                <span>{cap}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Right: Technical Telemetry Node */}
+        <div
+          style={{
+            backgroundColor: '#F8FAFC',
+            borderRadius: '12px',
+            border: '1px solid #E2E8F0',
+            padding: '1.25rem',
+            display: 'flex',
+            flexDirection: 'column',
+            gap: '0.85rem'
+          }}
+        >
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', borderBottom: '1px solid #E2E8F0', paddingBottom: '0.65rem' }}>
+            <span style={{ fontSize: '0.72rem', fontWeight: 700, color: '#64748B', textTransform: 'uppercase', letterSpacing: '0.06em' }}>
+              Execution Telemetry
+            </span>
+            <span style={{ fontSize: '0.68rem', color: '#059669', display: 'flex', alignItems: 'center', gap: '0.3rem', fontWeight: 600 }}>
+              <Activity size={12} /> Active Sync
+            </span>
+          </div>
+
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '0.65rem' }}>
+            <div style={{ backgroundColor: '#FFFFFF', padding: '0.6rem', borderRadius: '6px', border: '1px solid #E2E8F0' }}>
+              <div style={{ fontSize: '0.65rem', color: '#64748B', marginBottom: '0.15rem' }}>P99 Latency</div>
+              <div style={{ fontSize: '0.85rem', fontWeight: 800, color: current.accent, fontFamily: 'monospace' }}>
+                {current.telemetry.latency}
+              </div>
+            </div>
+
+            <div style={{ backgroundColor: '#FFFFFF', padding: '0.6rem', borderRadius: '6px', border: '1px solid #E2E8F0' }}>
+              <div style={{ fontSize: '0.65rem', color: '#64748B', marginBottom: '0.15rem' }}>Runtime Mode</div>
+              <div style={{ fontSize: '0.74rem', fontWeight: 700, color: '#0F172A' }}>
+                {current.telemetry.mode.split(' ')[0]}
+              </div>
+            </div>
+
+            <div style={{ backgroundColor: '#FFFFFF', padding: '0.6rem', borderRadius: '6px', border: '1px solid #E2E8F0' }}>
+              <div style={{ fontSize: '0.65rem', color: '#64748B', marginBottom: '0.15rem' }}>Governance</div>
+              <div style={{ fontSize: '0.74rem', fontWeight: 700, color: '#059669' }}>
+                POPIA Safe
+              </div>
+            </div>
+          </div>
+
+          <div style={{ fontSize: '0.72rem', color: '#64748B', lineHeight: 1.5, borderTop: '1px solid #E2E8F0', paddingTop: '0.65rem' }}>
+            <span style={{ color: '#0F172A', fontWeight: 600 }}>Deterministic Lock:</span> Models operate inside isolated memory contexts with zero persistent caching of sensitive customer data.
+          </div>
         </div>
       </div>
 
-      {/* Illustrative Interface Disclaimer */}
-      <div className={isLight ? "illustrative-tag" : "illustrative-tag illustrative-tag-dark"}>
-        System architecture diagram
+      {/* Progress Dots */}
+      <div style={{
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        gap: '0.45rem',
+        padding: '0.75rem',
+        borderTop: '1px solid #F1F5F9',
+        backgroundColor: '#FAFCFE'
+      }}>
+        {STAGES.map((s, idx) => (
+          <button
+            key={s.id}
+            type="button"
+            onClick={() => selectStage(idx)}
+            style={{
+              width: activeStage === idx ? '24px' : '6px',
+              height: '6px',
+              borderRadius: '999px',
+              backgroundColor: activeStage === idx ? s.accent : '#CBD5E1',
+              border: 'none',
+              padding: 0,
+              cursor: 'pointer',
+              transition: 'all 0.3s cubic-bezier(0.16, 1, 0.3, 1)'
+            }}
+          />
+        ))}
+        <span style={{ fontSize: '0.68rem', color: '#64748B', marginLeft: '0.5rem' }}>
+          {isPaused ? 'Paused' : 'Auto-cycling (6s)'}
+        </span>
       </div>
+
+      <style>{`
+        @keyframes telemetryFade {
+          from { opacity: 0; transform: translateY(8px); }
+          to   { opacity: 1; transform: translateY(0); }
+        }
+      `}</style>
     </div>
   );
 }

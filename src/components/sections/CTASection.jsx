@@ -6,9 +6,6 @@ import {
   Sparkles, 
   CheckCircle2, 
   ShieldCheck, 
-  Calendar, 
-  Lock, 
-  Zap, 
   Clock 
 } from 'lucide-react';
 
@@ -25,92 +22,89 @@ export default function CTASection({
     <section 
       style={{
         backgroundColor: '#F8FAFC',
-        paddingTop: 'clamp(3.5rem, 6vw, 5.5rem)',
-        paddingBottom: 'clamp(3.5rem, 6vw, 5.5rem)',
+        paddingTop: '2.5rem',
+        paddingBottom: '3.5rem',
         position: 'relative',
         overflow: 'hidden'
       }}
     >
       <Container>
-        {/* Floating Executive Island Card */}
+        {/* Compact Premium White Executive Card */}
         <div
           style={{
             position: 'relative',
-            borderRadius: '28px',
-            backgroundColor: '#161B1F',
-            background: 'linear-gradient(145deg, #1A1F24 0%, #161B1F 50%, #101417 100%)',
-            border: '1px solid rgba(243, 140, 19, 0.3)',
-            boxShadow: '0 30px 70px -15px rgba(15, 23, 42, 0.25), 0 0 0 1px rgba(255, 255, 255, 0.05)',
-            padding: 'clamp(2.75rem, 5vw, 4.5rem) clamp(1.5rem, 4vw, 3.5rem)',
+            borderRadius: '20px',
+            backgroundColor: '#FFFFFF',
+            border: '1px solid #E2E8F0',
+            boxShadow: '0 20px 50px -12px rgba(15, 23, 42, 0.08), 0 1px 3px rgba(15, 23, 42, 0.03)',
+            padding: 'clamp(2rem, 3.2vw, 2.75rem) clamp(1.25rem, 3vw, 2.5rem)',
             overflow: 'hidden',
             textAlign: 'center'
           }}
         >
-          {/* Ambient Katko Radiant Mesh Aura */}
-          <div 
-            style={{
-              position: 'absolute',
-              top: '-35%',
-              left: '50%',
-              transform: 'translateX(-50%)',
-              width: '700px',
-              height: '450px',
-              borderRadius: '50%',
-              background: 'radial-gradient(ellipse at center, rgba(243, 140, 19, 0.25) 0%, rgba(248, 191, 0, 0.08) 40%, transparent 70%)',
-              pointerEvents: 'none',
-              filter: 'blur(30px)',
-              zIndex: 0
-            }}
-          />
-
-          {/* Background Architectural Blueprint Dot Matrix */}
+          {/* Top Subtle Amber Highlight Bar */}
           <div 
             style={{
               position: 'absolute',
               top: 0,
-              left: 0,
-              right: 0,
-              bottom: 0,
-              backgroundImage: 'radial-gradient(rgba(243, 140, 19, 0.12) 1px, transparent 1px)',
-              backgroundSize: '24px 24px',
+              left: '25%',
+              right: '25%',
+              height: '3px',
+              background: 'linear-gradient(90deg, transparent, #F38C13 50%, transparent)',
+              borderRadius: '999px',
+              pointerEvents: 'none'
+            }}
+          />
+
+          {/* Subtle Ambient Radial Warm Glow */}
+          <div 
+            style={{
+              position: 'absolute',
+              top: '-80px',
+              left: '50%',
+              transform: 'translateX(-50%)',
+              width: '500px',
+              height: '200px',
+              borderRadius: '50%',
+              background: 'radial-gradient(ellipse at center, rgba(243, 140, 19, 0.08) 0%, transparent 70%)',
               pointerEvents: 'none',
-              zIndex: 0,
-              opacity: 0.6
+              filter: 'blur(35px)',
+              zIndex: 0
             }}
           />
 
           {/* Content Container */}
-          <div style={{ position: 'relative', zIndex: 1, maxWidth: '780px', margin: '0 auto' }}>
+          <div style={{ position: 'relative', zIndex: 1, maxWidth: '720px', margin: '0 auto' }}>
             {/* Top Eyebrow Badge */}
             <div 
               style={{
                 display: 'inline-flex',
                 alignItems: 'center',
                 gap: '0.45rem',
-                padding: '0.35rem 0.9rem',
-                borderRadius: 'var(--radius-full)',
-                backgroundColor: 'rgba(243, 140, 19, 0.12)',
-                border: '1px solid rgba(243, 140, 19, 0.35)',
-                color: 'var(--color-orange)',
-                fontSize: '0.76rem',
+                padding: '0.22rem 0.75rem',
+                borderRadius: '999px',
+                backgroundColor: '#FFF7ED',
+                border: '1px solid #FFEDD5',
+                color: '#C2410C',
+                fontSize: '0.72rem',
                 fontWeight: 800,
                 textTransform: 'uppercase',
-                letterSpacing: '0.08em',
-                marginBottom: '1.5rem'
+                letterSpacing: '0.07em',
+                marginBottom: '1rem'
               }}
             >
-              <Sparkles size={14} color="var(--color-orange)" />
+              <Sparkles size={13} color="#F38C13" />
               <span>{badge} · Consultation &amp; Scoping</span>
             </div>
 
             {/* Main Headline */}
             <h2 
               style={{
-                color: '#FFFFFF',
-                fontSize: 'clamp(2rem, 3.8vw, 3rem)',
+                color: '#0F172A',
+                fontSize: 'clamp(1.6rem, 2.6vw, 2.2rem)',
                 fontWeight: 800,
-                lineHeight: 1.15,
-                marginBottom: '1.25rem',
+                lineHeight: 1.2,
+                marginBottom: '0.65rem',
                 letterSpacing: '-0.025em'
               }}
             >
@@ -119,13 +113,12 @@ export default function CTASection({
 
             {/* Subtitle */}
             <p 
-              className="lead"
               style={{
-                color: 'rgba(255, 255, 255, 0.8)',
-                maxWidth: '660px',
-                margin: '0 auto 2.5rem auto',
-                lineHeight: 1.65,
-                fontSize: 'clamp(1rem, 1.3vw, 1.12rem)'
+                color: '#475569',
+                maxWidth: '620px',
+                margin: '0 auto 1.6rem auto',
+                lineHeight: 1.6,
+                fontSize: 'clamp(0.92rem, 1.1vw, 1rem)'
               }}
             >
               {subtitle}
@@ -136,20 +129,22 @@ export default function CTASection({
               style={{
                 display: 'flex',
                 flexWrap: 'wrap',
-                gap: '1rem',
+                gap: '0.85rem',
                 alignItems: 'center',
                 justifyContent: 'center',
-                marginBottom: '2.5rem'
+                marginBottom: '1.6rem'
               }}
             >
               <Button 
                 to={primaryCtaPath} 
                 variant="primary" 
-                size="lg"
-                icon={<ArrowRight size={17} />}
+                size="md"
+                icon={<ArrowRight size={15} />}
                 style={{
-                  boxShadow: '0 4px 20px rgba(243, 140, 19, 0.45)',
-                  padding: '0.9rem 2rem'
+                  boxShadow: '0 4px 16px rgba(243, 140, 19, 0.35)',
+                  padding: '0.75rem 1.75rem',
+                  fontSize: '0.88rem',
+                  fontWeight: 700
                 }}
               >
                 {primaryCtaText}
@@ -158,14 +153,15 @@ export default function CTASection({
               {secondaryCtaText && secondaryCtaPath && (
                 <Button 
                   to={secondaryCtaPath} 
-                  variant="secondary-dark" 
-                  size="lg"
+                  variant="outline" 
+                  size="md"
                   style={{
-                    backgroundColor: 'rgba(255, 255, 255, 0.08)',
-                    borderColor: 'rgba(255, 255, 255, 0.25)',
-                    color: '#FFFFFF',
-                    backdropFilter: 'blur(8px)',
-                    padding: '0.9rem 1.8rem'
+                    backgroundColor: '#FFFFFF',
+                    borderColor: '#CBD5E1',
+                    color: '#0F172A',
+                    padding: '0.75rem 1.6rem',
+                    fontSize: '0.88rem',
+                    fontWeight: 600
                   }}
                 >
                   {secondaryCtaText}
@@ -179,26 +175,26 @@ export default function CTASection({
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
-                gap: '1.75rem',
+                gap: '1.5rem',
                 flexWrap: 'wrap',
-                paddingTop: '1.75rem',
-                borderTop: '1px solid rgba(255, 255, 255, 0.1)',
-                fontSize: '0.8rem',
-                color: 'rgba(255, 255, 255, 0.7)'
+                paddingTop: '1.25rem',
+                borderTop: '1px solid #F1F5F9',
+                fontSize: '0.76rem',
+                color: '#64748B'
               }}
             >
-              <div style={{ display: 'flex', alignItems: 'center', gap: '0.45rem' }}>
-                <CheckCircle2 size={15} color="var(--color-orange)" />
+              <div style={{ display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
+                <CheckCircle2 size={14} color="#F38C13" />
                 <span>Direct South African Consultation</span>
               </div>
 
-              <div style={{ display: 'flex', alignItems: 'center', gap: '0.45rem' }}>
-                <Clock size={15} color="var(--color-orange)" />
+              <div style={{ display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
+                <Clock size={14} color="#F38C13" />
                 <span>No-Obligation Technical Discovery</span>
               </div>
 
-              <div style={{ display: 'flex', alignItems: 'center', gap: '0.45rem' }}>
-                <ShieldCheck size={15} color="#10B981" />
+              <div style={{ display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
+                <ShieldCheck size={14} color="#059669" />
                 <span>POPIA-Aligned Governance</span>
               </div>
             </div>

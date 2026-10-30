@@ -1,5 +1,5 @@
 /**
- * Katko Site Content — Strictly grounded in Katko New Website.docx & KATKO_CODEX_MASTER_PROMPT.md
+ * Katko Site Content - Strictly grounded in Katko New Website.docx & KATKO_CODEX_MASTER_PROMPT.md
  * Source of truth: Developer Implementation Brief
  */
 

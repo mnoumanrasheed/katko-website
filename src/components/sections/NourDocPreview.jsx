@@ -64,7 +64,7 @@ export default function NourDocPreview() {
             </div>
 
             <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap' }}>
-              <Button to="/nourdoc" variant="primary" icon={<ArrowRight size={16} />}>
+              <Button href="https://nour-doc.com/" variant="primary" icon={<ArrowRight size={16} />}>
                 Explore NourDoc
               </Button>
               <Button to="/contact-us?enquiry=nourdoc" variant="secondary">

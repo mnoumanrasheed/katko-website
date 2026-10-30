@@ -12,7 +12,7 @@ import CTASection from '../components/sections/CTASection';
 export default function Home() {
   return (
     <PageShell
-      title="Katko | AI & Technology Solutions — NourDoc, LeadHive AI & Engineering"
+      title="Katko | AI & Technology Solutions - NourDoc, LeadHive AI & Engineering"
       description="Katko delivers modern, enterprise-ready AI solutions, ambient clinical documentation with NourDoc, omnichannel lead intelligence with LeadHive AI, and bespoke digital product engineering."
     >
       {/* 3-Slide Hero Carousel with exact copy and 6s auto-rotation */}
@@ -41,7 +41,8 @@ export default function Home() {
         primaryCtaText="Discuss Your Project"
         primaryCtaPath="/contact-us"
         secondaryCtaText="Explore NourDoc"
-        secondaryCtaPath="/nourdoc"
+        secondaryCtaPath="https://nour-doc.com/"
+        secondaryCtaExternal={true}
       />
     </PageShell>
   );

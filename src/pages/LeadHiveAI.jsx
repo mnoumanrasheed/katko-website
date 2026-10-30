@@ -78,19 +78,19 @@ export default function LeadHiveAI() {
 
   return (
     <PageShell
-      title="LeadHive AI — Turn Every Conversation into a Business Opportunity"
+      title="LeadHive AI - Turn Every Conversation into a Business Opportunity"
       description="LeadHive AI engages prospects, qualifies leads, and automates customer interactions across digital channels using AI-powered conversational workflows."
     >
-      {/* Hero Section — Premium Background Image */}
+      {/* Hero Section - Premium Background Image */}
       <PageHero
         imageSrc="/images/page_leadhive-wide-optimized.jpg"
-        imageAlt="LeadHive AI — Omnichannel Lead Qualification"
+        imageAlt="LeadHive AI - Omnichannel Lead Qualification"
         eyebrow="Conversational AI Platform"
         eyebrowIcon={<Bot size={14} />}
         headline="Turn Every Conversation into a Business Opportunity."
         subtext="Engage prospects, qualify leads and automate customer interactions across digital channels using AI-powered conversational workflows."
         primaryCta={{ label: 'Request a LeadHive Demo', to: '/contact-us?enquiry=leadhive' }}
-        secondaryCta={{ label: 'Explore Workflows', to: '#features' }}
+        secondaryCta={{ label: 'Explore Workflows', href: 'https://www.leadhive-ai.com/' }}
         trustNote="POPIA-compliant data handling · Verified CRM routing"
       />
 

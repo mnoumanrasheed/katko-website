@@ -1,18 +1,14 @@
 import React, { useState } from 'react';
 import { 
-  MessageSquare, 
-  Users, 
-  CheckCircle, 
-  Clock, 
   Zap, 
   ArrowRight, 
-  Bot, 
+  Check, 
+  MessageSquare, 
   Calendar, 
-  PhoneCall, 
-  ShieldCheck, 
-  Sparkles,
+  Sparkles, 
+  CheckCheck,
   Building,
-  CheckCheck
+  UserCheck
 } from 'lucide-react';
 
 export default function LeadHiveDashboardVisual({ compact = false }) {
@@ -25,14 +21,9 @@ export default function LeadHiveDashboardVisual({ compact = false }) {
       role: 'Operations Director',
       company: 'Apex Logistics Ltd',
       channel: 'WhatsApp Business',
-      channelColor: '#25D366',
-      channelBg: '#DCFCE7',
+      channelType: 'whatsapp',
       score: 96,
-      scoreColor: '#059669',
-      scoreBg: '#D1FAE5',
-      time: 'Just now',
       intent: 'Multi-Site Depot Automation',
-      status: 'Meeting Scheduled',
       messages: [
         {
           sender: 'prospect',
@@ -61,16 +52,11 @@ export default function LeadHiveDashboardVisual({ compact = false }) {
       id: 1,
       name: 'Dr. Sarah Meyer',
       role: 'Practice Lead',
-      company: 'Highveld Health',
-      channel: 'Web Chat',
-      channelColor: '#2563EB',
-      channelBg: '#DBEAFE',
+      company: 'Highveld Health Group',
+      channel: 'Omnichannel Web',
+      channelType: 'web',
       score: 98,
-      scoreColor: '#059669',
-      scoreBg: '#D1FAE5',
-      time: '34m ago',
       intent: 'NourDoc Clinical Trial',
-      status: 'Demo Confirmed',
       messages: [
         {
           sender: 'prospect',
@@ -100,219 +86,307 @@ export default function LeadHiveDashboardVisual({ compact = false }) {
         backgroundColor: '#FFFFFF',
         borderRadius: '24px',
         border: '1px solid #E2E8F0',
-        boxShadow: '0 25px 60px -15px rgba(15, 23, 42, 0.12), 0 0 0 1px rgba(226, 232, 240, 0.8)',
+        boxShadow: '0 25px 65px -12px rgba(15, 23, 42, 0.09), 0 1px 3px rgba(15, 23, 42, 0.04)',
         overflow: 'hidden',
         position: 'relative',
         width: '100%',
-        transition: 'all var(--transition-normal)'
+        color: '#0F172A',
+        fontFamily: 'Inter, system-ui, sans-serif'
       }}
     >
-      {/* Top macOS-style Window Header Bar */}
+      {/* Subtle Warm Top Glow */}
+      <div 
+        style={{
+          position: 'absolute',
+          top: '-80px',
+          right: '-40px',
+          width: '320px',
+          height: '240px',
+          borderRadius: '50%',
+          background: 'radial-gradient(ellipse at center, rgba(243, 140, 19, 0.08) 0%, transparent 70%)',
+          filter: 'blur(45px)',
+          pointerEvents: 'none',
+          zIndex: 0
+        }}
+      />
+
+      {/* Top Application Header Bar */}
       <div 
         style={{
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'space-between',
-          padding: '0.85rem 1.25rem',
-          backgroundColor: '#F8FAFC',
-          borderBottom: '1px solid #E2E8F0'
+          padding: '0.95rem 1.4rem',
+          borderBottom: '1px solid #F1F5F9',
+          backgroundColor: '#FAFCFE',
+          position: 'relative',
+          zIndex: 1
         }}
       >
-        <div style={{ display: 'flex', alignItems: 'center', gap: '0.65rem' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
           <div style={{ display: 'flex', gap: '6px' }}>
             <span style={{ width: 10, height: 10, borderRadius: '50%', backgroundColor: '#FF5F56' }} />
             <span style={{ width: 10, height: 10, borderRadius: '50%', backgroundColor: '#FFBD2E' }} />
             <span style={{ width: 10, height: 10, borderRadius: '50%', backgroundColor: '#27C93F' }} />
           </div>
-          <div style={{ width: 1, height: 16, backgroundColor: '#CBD5E1', margin: '0 0.2rem' }} />
-          <div style={{ display: 'flex', alignItems: 'center', gap: '0.45rem' }}>
-            <Zap size={15} color="var(--color-orange)" />
-            <span style={{ fontSize: '0.82rem', fontWeight: 700, color: 'var(--color-charcoal)' }}>
-              LeadHive AI Pipeline &amp; Engagement Hub
+          <div style={{ width: 1, height: 14, backgroundColor: '#E2E8F0', margin: '0 0.15rem' }} />
+          <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+            <div style={{
+              width: 24,
+              height: 24,
+              borderRadius: '6px',
+              backgroundColor: 'rgba(243, 140, 19, 0.12)',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              border: '1px solid rgba(243, 140, 19, 0.25)'
+            }}>
+              <Zap size={13} color="#F38C13" />
+            </div>
+            <span style={{ fontSize: '0.84rem', fontWeight: 800, color: '#0F172A', letterSpacing: '-0.01em' }}>
+              LeadHive<span style={{ color: '#F38C13' }}>.ai</span>
+            </span>
+            <span style={{ 
+              fontSize: '0.64rem', 
+              fontWeight: 700, 
+              padding: '0.12rem 0.5rem', 
+              borderRadius: '999px', 
+              backgroundColor: '#F1F5F9', 
+              color: '#475569',
+              border: '1px solid #E2E8F0'
+            }}>
+              Routing Hub
             </span>
           </div>
         </div>
 
-        <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-          <span 
-            style={{ 
-              display: 'inline-flex',
-              alignItems: 'center',
-              gap: '0.4rem',
-              backgroundColor: '#ECFDF5',
-              border: '1px solid #A7F3D0',
-              color: '#059669',
-              fontSize: '0.72rem',
-              fontWeight: 700,
-              padding: '0.2rem 0.65rem',
-              borderRadius: 'var(--radius-full)'
-            }}
-          >
-            <span style={{ width: 6, height: 6, borderRadius: '50%', backgroundColor: '#10B981', display: 'inline-block' }} />
-            Omnichannel Routing Active
-          </span>
+        {/* Live Active Lead Switcher */}
+        <div style={{ display: 'flex', gap: '0.35rem' }}>
+          {leads.map((lead, idx) => (
+            <button
+              key={lead.id}
+              type="button"
+              onClick={() => setSelectedLead(idx)}
+              style={{
+                fontSize: '0.72rem',
+                fontWeight: 700,
+                padding: '0.25rem 0.7rem',
+                borderRadius: '6px',
+                backgroundColor: selectedLead === idx ? '#0F172A' : '#F1F5F9',
+                color: selectedLead === idx ? '#FFFFFF' : '#64748B',
+                border: '1px solid',
+                borderColor: selectedLead === idx ? '#0F172A' : '#E2E8F0',
+                cursor: 'pointer',
+                transition: 'all 0.2s ease'
+              }}
+            >
+              {lead.name.split(' ')[0]}
+            </button>
+          ))}
         </div>
       </div>
 
-      {/* Main Conversation & Qualification Interface */}
-      <div style={{ padding: '1.25rem', display: 'flex', flexDirection: 'column', gap: '1rem' }}>
-        {/* Channel & Prospect Selector Header */}
-        <div 
-          style={{
+      {/* Prospect & Pipeline Meta Header */}
+      <div 
+        style={{
+          padding: '0.9rem 1.4rem',
+          backgroundColor: '#FFFFFF',
+          borderBottom: '1px solid #F1F5F9',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'space-between',
+          flexWrap: 'wrap',
+          gap: '0.75rem',
+          fontSize: '0.8rem',
+          position: 'relative',
+          zIndex: 1
+        }}
+      >
+        <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
+          <div style={{
+            width: 34,
+            height: 34,
+            borderRadius: '10px',
+            backgroundColor: 'rgba(243, 140, 19, 0.1)',
+            border: '1px solid rgba(243, 140, 19, 0.25)',
             display: 'flex',
             alignItems: 'center',
-            justifyContent: 'space-between',
-            padding: '0.75rem 1rem',
-            backgroundColor: '#F8FAFC',
-            borderRadius: 'var(--radius-md)',
-            border: '1px solid #E2E8F0',
-            flexWrap: 'wrap',
-            gap: '0.75rem'
-          }}
-        >
-          <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
-            <div style={{ width: 34, height: 34, borderRadius: '50%', backgroundColor: currentLead.channelBg, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-              <MessageSquare size={16} color={currentLead.channelColor} />
-            </div>
-            <div>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '0.45rem' }}>
-                <span style={{ fontSize: '0.85rem', fontWeight: 800, color: 'var(--color-charcoal)' }}>
-                  {currentLead.name}
-                </span>
-                <span style={{ fontSize: '0.68rem', padding: '0.1rem 0.45rem', borderRadius: '4px', backgroundColor: currentLead.channelBg, color: currentLead.channelColor, fontWeight: 700 }}>
-                  {currentLead.channel}
-                </span>
-              </div>
-              <div style={{ fontSize: '0.72rem', color: '#64748B' }}>
-                {currentLead.company} · {currentLead.role}
-              </div>
-            </div>
+            justifyContent: 'center',
+            fontSize: '0.78rem',
+            fontWeight: 800,
+            color: '#C2410C'
+          }}>
+            {currentLead.name.split(' ').map(n => n[0]).join('')}
           </div>
-
-          <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-            <span style={{ fontSize: '0.72rem', fontWeight: 800, padding: '0.2rem 0.6rem', borderRadius: 'var(--radius-full)', backgroundColor: currentLead.scoreBg, color: currentLead.scoreColor }}>
-              Score {currentLead.score} · High Intent
-            </span>
+          <div>
+            <div style={{ fontWeight: 800, color: '#0F172A', display: 'flex', alignItems: 'center', gap: '0.45rem' }}>
+              {currentLead.name}
+              <span style={{ 
+                fontSize: '0.65rem', 
+                fontWeight: 700, 
+                color: currentLead.channelType === 'whatsapp' ? '#059669' : '#0284C7', 
+                backgroundColor: currentLead.channelType === 'whatsapp' ? '#ECFDF5' : '#F0F9FF', 
+                border: `1px solid ${currentLead.channelType === 'whatsapp' ? '#A7F3D0' : '#BAE6FD'}`,
+                padding: '0.12rem 0.5rem', 
+                borderRadius: '4px' 
+              }}>
+                {currentLead.channel}
+              </span>
+            </div>
+            <div style={{ fontSize: '0.72rem', color: '#64748B' }}>
+              {currentLead.role} · {currentLead.company}
+            </div>
           </div>
         </div>
 
-        {/* Live Chat Thread with Rich Elements */}
+        {/* Lead Score Indicator */}
+        <div style={{ 
+          display: 'flex', 
+          alignItems: 'center', 
+          gap: '0.45rem',
+          padding: '0.25rem 0.75rem', 
+          borderRadius: '999px',
+          backgroundColor: '#ECFDF5',
+          border: '1px solid #A7F3D0',
+          color: '#059669',
+          fontSize: '0.74rem',
+          fontWeight: 700
+        }}>
+          <Sparkles size={13} color="#059669" />
+          <span>Intent Score: {currentLead.score}/100</span>
+        </div>
+      </div>
+
+      {/* Main Body: Conversational Stream & Calendar Dispatch */}
+      <div style={{ padding: '1.25rem', display: 'flex', flexDirection: 'column', gap: '1rem', position: 'relative', zIndex: 1 }}>
+        
+        {/* Chat Messages Container */}
+        <div 
+          style={{
+            display: 'flex',
+            flexDirection: 'column',
+            gap: '0.85rem',
+            backgroundColor: '#F8FAFC',
+            borderRadius: '14px',
+            border: '1px solid #E2E8F0',
+            padding: '1.1rem'
+          }}
+        >
+          {currentLead.messages.map((msg, idx) => (
+            <div 
+              key={idx}
+              style={{
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: msg.sender === 'ai' ? 'flex-end' : 'flex-start'
+              }}
+            >
+              <div style={{ 
+                display: 'flex', 
+                alignItems: 'center', 
+                gap: '0.35rem', 
+                fontSize: '0.7rem', 
+                marginBottom: '0.25rem',
+                paddingLeft: msg.sender === 'ai' ? 0 : '0.4rem',
+                paddingRight: msg.sender === 'ai' ? '0.4rem' : 0
+              }}>
+                <span style={{ fontWeight: 700, color: msg.sender === 'ai' ? '#C2410C' : '#475569' }}>
+                  {msg.sender === 'ai' ? 'LeadHive Agent' : currentLead.name}
+                </span>
+                <span style={{ color: '#94A3B8' }}>· {msg.time}</span>
+              </div>
+
+              <div 
+                style={{
+                  maxWidth: '85%',
+                  padding: '0.75rem 1rem',
+                  borderRadius: msg.sender === 'ai' ? '12px 12px 2px 12px' : '12px 12px 12px 2px',
+                  backgroundColor: msg.sender === 'ai' ? '#FFF7ED' : '#FFFFFF',
+                  border: '1px solid',
+                  borderColor: msg.sender === 'ai' ? '#FFEDD5' : '#E2E8F0',
+                  color: '#0F172A',
+                  fontSize: '0.78rem',
+                  lineHeight: 1.55,
+                  boxShadow: msg.sender === 'ai' ? 'none' : '0 1px 3px rgba(15, 23, 42, 0.04)'
+                }}
+              >
+                {msg.text}
+              </div>
+            </div>
+          ))}
+        </div>
+
+        {/* Automated Qualification Outcome & Calendar Dispatch */}
         <div 
           style={{
             backgroundColor: '#FFFFFF',
-            borderRadius: 'var(--radius-md)',
-            border: '1.5px solid #E2E8F0',
-            padding: '1rem',
-            display: 'flex',
-            flexDirection: 'column',
-            gap: '0.75rem'
-          }}
-        >
-          <div style={{ fontSize: '0.7rem', fontWeight: 700, color: '#94A3B8', textTransform: 'uppercase', letterSpacing: '0.04em' }}>
-            Automated Qualification Dialogue
-          </div>
-
-          {currentLead.messages.map((msg, i) => (
-            <div 
-              key={i}
-              style={{
-                alignSelf: msg.sender === 'prospect' ? 'flex-start' : 'flex-end',
-                maxWidth: '85%',
-                backgroundColor: msg.sender === 'prospect' ? '#F8FAFC' : '#FFF7ED',
-                border: msg.sender === 'prospect' ? '1px solid #E2E8F0' : '1px solid #FED7AA',
-                borderRadius: msg.sender === 'prospect' ? '12px 12px 12px 2px' : '12px 12px 2px 12px',
-                padding: '0.65rem 0.85rem',
-                fontSize: '0.78rem',
-                lineHeight: 1.55,
-                color: msg.sender === 'prospect' ? '#334155' : '#7C2D12'
-              }}
-            >
-              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '1rem', marginBottom: '0.2rem', fontSize: '0.66rem', fontWeight: 700, color: msg.sender === 'prospect' ? '#64748B' : 'var(--color-orange)' }}>
-                <span>{msg.sender === 'prospect' ? currentLead.name : 'LeadHive AI Agent'}</span>
-                <span style={{ color: '#94A3B8', fontWeight: 400 }}>{msg.time}</span>
-              </div>
-              <p style={{ margin: 0 }}>
-                {msg.text}
-              </p>
-            </div>
-          ))}
-
-          {/* Embedded Meeting Booking Confirmation Card */}
-          {currentLead.meeting && (
-            <div 
-              style={{
-                backgroundColor: '#ECFDF5',
-                border: '1.5px solid #A7F3D0',
-                borderRadius: '10px',
-                padding: '0.75rem 1rem',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'space-between',
-                flexWrap: 'wrap',
-                gap: '0.6rem',
-                marginTop: '0.25rem'
-              }}
-            >
-              <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem' }}>
-                <div style={{ width: 30, height: 30, borderRadius: '50%', backgroundColor: '#D1FAE5', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                  <Calendar size={15} color="#059669" />
-                </div>
-                <div>
-                  <div style={{ fontSize: '0.78rem', fontWeight: 800, color: '#065F46' }}>
-                    {currentLead.meeting.title}
-                  </div>
-                  <div style={{ fontSize: '0.7rem', color: '#047857' }}>
-                    📅 {currentLead.meeting.time} · Synced to HubSpot &amp; Calendar
-                  </div>
-                </div>
-              </div>
-              <span style={{ fontSize: '0.68rem', fontWeight: 700, padding: '0.15rem 0.5rem', borderRadius: '4px', backgroundColor: '#FFFFFF', color: '#047857', border: '1px solid #A7F3D0' }}>
-                Confirmed
-              </span>
-            </div>
-          )}
-        </div>
-
-        {/* BANT Qualification Scorecard */}
-        <div 
-          style={{
-            backgroundColor: '#F8FAFC',
-            borderRadius: 'var(--radius-md)',
+            borderRadius: '14px',
             border: '1px solid #E2E8F0',
-            padding: '0.85rem 1rem',
+            padding: '1.1rem',
             display: 'flex',
             flexDirection: 'column',
-            gap: '0.5rem'
+            gap: '0.75rem',
+            boxShadow: '0 2px 8px rgba(15, 23, 42, 0.03)'
           }}
         >
-          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', fontSize: '0.74rem' }}>
-            <span style={{ fontWeight: 700, color: 'var(--color-charcoal)' }}>
-              BANT Lead Verification Status
-            </span>
-            <span style={{ color: '#059669', fontWeight: 700, display: 'flex', alignItems: 'center', gap: '0.3rem' }}>
-              <CheckCheck size={14} /> 100% Qualified &amp; CRM Synced
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', fontSize: '0.8rem', fontWeight: 800, color: '#0F172A' }}>
+              <Calendar size={15} color="#F38C13" />
+              <span>Automated Meeting Dispatch</span>
+            </div>
+            <span style={{ 
+              fontSize: '0.7rem', 
+              fontWeight: 700, 
+              color: '#059669', 
+              backgroundColor: '#ECFDF5', 
+              padding: '0.2rem 0.6rem', 
+              borderRadius: '999px',
+              border: '1px solid #A7F3D0',
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: '0.35rem'
+            }}>
+              <CheckCheck size={12} /> Calendar Synced
             </span>
           </div>
 
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '4px', height: '6px' }}>
-            <div style={{ backgroundColor: 'var(--color-orange)', borderRadius: '3px' }} title="Need Identified" />
-            <div style={{ backgroundColor: 'var(--color-orange)', borderRadius: '3px' }} title="Authority Confirmed" />
-            <div style={{ backgroundColor: 'var(--color-orange)', borderRadius: '3px' }} title="Budget Verified" />
-            <div style={{ backgroundColor: '#10B981', borderRadius: '3px' }} title="Calendar Booked" />
-          </div>
+          <div style={{ 
+            display: 'flex', 
+            justifyContent: 'space-between', 
+            alignItems: 'center', 
+            backgroundColor: '#F8FAFC', 
+            padding: '0.75rem 1rem', 
+            borderRadius: '10px', 
+            border: '1px solid #E2E8F0',
+            fontSize: '0.78rem'
+          }}>
+            <div>
+              <div style={{ fontWeight: 800, color: '#0F172A' }}>
+                {currentLead.meeting.title}
+              </div>
+              <div style={{ color: '#C2410C', fontSize: '0.74rem', marginTop: '0.2rem', fontWeight: 700 }}>
+                {currentLead.meeting.time}
+              </div>
+            </div>
 
-          <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.66rem', color: '#64748B' }}>
-            <span>Need Identified</span>
-            <span>Authority Confirmed</span>
-            <span>Budget Verified</span>
-            <span style={{ color: '#059669', fontWeight: 700 }}>Routed to Account Executive</span>
+            <div style={{ 
+              display: 'flex', 
+              alignItems: 'center', 
+              gap: '0.4rem', 
+              fontSize: '0.72rem', 
+              color: '#475569',
+              backgroundColor: '#FFFFFF',
+              padding: '0.3rem 0.65rem',
+              borderRadius: '6px',
+              border: '1px solid #E2E8F0',
+              fontWeight: 600
+            }}>
+              <UserCheck size={13} color="#059669" />
+              <span>Host: Katko Lead Architect</span>
+            </div>
           </div>
         </div>
-      </div>
 
-      {/* Illustrative tag */}
-      <div className="illustrative-tag">
-        Illustrative interface
       </div>
     </div>
   );

@@ -5,7 +5,7 @@ import React, { useEffect, useRef, useState } from 'react';
  * 
  * Embeds official Google reCAPTCHA v2 "I'm not a robot" visible checkbox.
  * Handles single script injection, explicit render, token expiry, reset,
- * and component unmount cleanup.
+ * and stable lifecycle without recreating or resetting on parent re-renders.
  */
 export default function ReCaptchaV2Checkbox({
   siteKey,
@@ -18,7 +18,22 @@ export default function ReCaptchaV2Checkbox({
   const widgetIdRef = useRef(null);
   const [isScriptLoaded, setIsScriptLoaded] = useState(false);
 
-  // Expose reset method through widgetRef
+  // 1. Keep callbacks in a ref so parent re-renders do NOT re-trigger widget render effect
+  const callbacksRef = useRef({
+    onChange,
+    onExpired,
+    onError
+  });
+
+  useEffect(() => {
+    callbacksRef.current = {
+      onChange,
+      onExpired,
+      onError
+    };
+  }, [onChange, onExpired, onError]);
+
+  // 2. Expose reset method through widgetRef
   useEffect(() => {
     if (widgetRef) {
       widgetRef.current = {
@@ -27,7 +42,7 @@ export default function ReCaptchaV2Checkbox({
             try {
               window.grecaptcha.reset(widgetIdRef.current);
             } catch (err) {
-              // Ignore if already reset
+              // Ignore if already reset or unavailable
             }
           }
         }
@@ -35,7 +50,7 @@ export default function ReCaptchaV2Checkbox({
     }
   }, [widgetRef]);
 
-  // Load Google reCAPTCHA script only once
+  // 3. Load Google reCAPTCHA script only once
   useEffect(() => {
     if (typeof window === 'undefined') return;
 
@@ -63,7 +78,7 @@ export default function ReCaptchaV2Checkbox({
       script.defer = true;
       script.onload = onScriptReady;
       script.onerror = () => {
-        if (onError) onError('Failed to load Google reCAPTCHA.');
+        callbacksRef.current.onError?.('Failed to load Google reCAPTCHA.');
       };
       document.head.appendChild(script);
     } else {
@@ -75,9 +90,10 @@ export default function ReCaptchaV2Checkbox({
         script.removeEventListener('load', onScriptReady);
       }
     };
-  }, [onError]);
+  }, []);
 
-  // Explicitly render widget once script is loaded and container is ready
+  // 4. Explicitly render widget once script is loaded and container is ready.
+  // Depends ONLY on widget lifecycle dependencies [isScriptLoaded, siteKey].
   useEffect(() => {
     if (!isScriptLoaded || !siteKey || !containerRef.current) return;
     if (widgetIdRef.current !== null) return; // Prevent duplicate render
@@ -89,13 +105,13 @@ export default function ReCaptchaV2Checkbox({
           theme: 'light',
           size: 'normal',
           callback: (token) => {
-            if (onChange) onChange(token);
+            callbacksRef.current.onChange?.(token);
           },
           'expired-callback': () => {
-            if (onExpired) onExpired();
+            callbacksRef.current.onExpired?.();
           },
-          'error-callback': () => {
-            if (onError) onError('reCAPTCHA encountered an error. Please try again.');
+          'error-callback': (err) => {
+            callbacksRef.current.onError?.(err || 'reCAPTCHA encountered an error. Please try again.');
           }
         });
         widgetIdRef.current = id;
@@ -105,13 +121,20 @@ export default function ReCaptchaV2Checkbox({
     }
 
     return () => {
-      // Cleanup on unmount
+      // Cleanup only on true unmount or when siteKey changes
+      if (widgetIdRef.current !== null && window.grecaptcha?.reset) {
+        try {
+          window.grecaptcha.reset(widgetIdRef.current);
+        } catch {
+          // Ignore reset error during unmount
+        }
+      }
       widgetIdRef.current = null;
       if (containerRef.current) {
         containerRef.current.innerHTML = '';
       }
     };
-  }, [isScriptLoaded, siteKey, onChange, onExpired, onError]);
+  }, [isScriptLoaded, siteKey]);
 
   return (
     <div 
@@ -127,4 +150,3 @@ export default function ReCaptchaV2Checkbox({
     </div>
   );
 }
-

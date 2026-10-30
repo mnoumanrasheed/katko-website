@@ -4,7 +4,7 @@ import Container from '../ui/Container';
 import Button from '../ui/Button';
 
 /**
- * PageHero — Reusable luxury full-bleed hero for all inner pages.
+ * PageHero - Reusable luxury full-bleed hero for all inner pages.
  * 100vh height, split composition with white opacity card on left half, clear image on right half.
  */
 export default function PageHero({
@@ -50,12 +50,13 @@ export default function PageHero({
         zIndex: 1
       }}
     >
-      {/* Background Image — Full bleed, clear on right */}
+      {/* Background Image - Full bleed, clear on right */}
       <img
         src={imageSrc}
         alt={imageAlt}
         loading="eager"
         fetchPriority="high"
+        decoding="async"
         style={{
           position: 'absolute',
           inset: 0,
@@ -68,7 +69,7 @@ export default function PageHero({
         }}
       />
 
-      {/* Gentle directional scrim — light left wash, fully clear on right */}
+      {/* Gentle directional scrim - light left wash, fully clear on right */}
       <div style={{
         position: 'absolute',
         inset: 0,
@@ -77,7 +78,7 @@ export default function PageHero({
         pointerEvents: 'none'
       }} />
 
-      {/* Content — Left-aligned half-screen white opacity card */}
+      {/* Content - Left-aligned half-screen white opacity card */}
       <div 
         style={{
           position: 'relative',
@@ -181,7 +182,9 @@ export default function PageHero({
                   )}
                   {secondaryCta && (
                     <Button
-                      to={secondaryCta.to}
+                      {...(secondaryCta.href || secondaryCta.to?.startsWith('http')
+                        ? { href: secondaryCta.href || secondaryCta.to }
+                        : { to: secondaryCta.to })}
                       variant="secondary-dark"
                       size="md"
                       style={{

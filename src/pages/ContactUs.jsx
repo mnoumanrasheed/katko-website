@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import PageShell from '../components/layout/PageShell';
 import Container from '../components/ui/Container';
@@ -32,7 +32,7 @@ export default function ContactUs() {
     enquiryType: '',
     message: '',
     privacyConsent: false,
-    website: '' // Honeypot field — must remain empty
+    website: '' // Honeypot field - must remain empty
   });
 
   const [errors, setErrors] = useState({});
@@ -158,29 +158,27 @@ export default function ContactUs() {
     }
   };
 
-  const handleRecaptchaChange = (token) => {
+  const handleRecaptchaChange = useCallback((token) => {
     setRecaptchaToken(token);
-    if (errors.recaptcha) {
-      setErrors((prev) => ({ ...prev, recaptcha: undefined }));
-    }
-  };
+    setErrors((prev) => (prev.recaptcha ? { ...prev, recaptcha: undefined } : prev));
+  }, []);
 
-  const handleRecaptchaExpired = () => {
+  const handleRecaptchaExpired = useCallback(() => {
     setRecaptchaToken('');
     setErrors((prev) => ({ ...prev, recaptcha: 'Verification expired. Please check the box again.' }));
-  };
+  }, []);
 
-  const handleRecaptchaError = (msg) => {
+  const handleRecaptchaError = useCallback((msg) => {
     setRecaptchaToken('');
     setErrors((prev) => ({ ...prev, recaptcha: msg || 'reCAPTCHA check error.' }));
-  };
+  }, []);
 
-  const resetRecaptcha = () => {
+  const resetRecaptcha = useCallback(() => {
     setRecaptchaToken('');
     if (recaptchaWidgetRef.current?.reset) {
       recaptchaWidgetRef.current.reset();
     }
-  };
+  }, []);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -257,7 +255,7 @@ export default function ContactUs() {
 
   return (
     <PageShell
-      title="Contact Us — Enquiries, Consultations & Demos"
+      title="Contact Us - Enquiries, Consultations & Demos"
       description="Connect with Katko to discuss NourDoc clinical documentation, LeadHive AI, or bespoke enterprise AI engineering solutions."
     >
       <section 
@@ -357,12 +355,9 @@ export default function ContactUs() {
 
                     {/* Belinda Ferreira */}
                     <div style={{ display: 'flex', flexDirection: 'column', gap: '0.35rem', paddingBottom: '0.85rem', borderBottom: '1px solid #F1F5F9' }}>
-                      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                      <div>
                         <span style={{ fontSize: '0.92rem', fontWeight: 700, color: 'var(--color-charcoal)' }}>
                           Belinda Ferreira
-                        </span>
-                        <span style={{ fontSize: '0.7rem', color: '#64748B', fontWeight: 600 }}>
-                          Client Services
                         </span>
                       </div>
                       <div style={{ display: 'flex', flexWrap: 'wrap', gap: '1rem', fontSize: '0.84rem' }}>
@@ -379,12 +374,9 @@ export default function ContactUs() {
 
                     {/* Hasnain */}
                     <div style={{ display: 'flex', flexDirection: 'column', gap: '0.35rem' }}>
-                      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                      <div>
                         <span style={{ fontSize: '0.92rem', fontWeight: 700, color: 'var(--color-charcoal)' }}>
                           Hasnain
-                        </span>
-                        <span style={{ fontSize: '0.7rem', color: '#64748B', fontWeight: 600 }}>
-                          Technical Architecture
                         </span>
                       </div>
                       <div style={{ display: 'flex', flexWrap: 'wrap', gap: '1rem', fontSize: '0.84rem' }}>
@@ -605,8 +597,8 @@ export default function ContactUs() {
                       aria-describedby={errors.enquiryType ? 'enquiryType-error' : undefined}
                     >
                       <option value="">-- Please select an area --</option>
-                      <option value="NourDoc Demo">NourDoc — Clinical Documentation Demo</option>
-                      <option value="LeadHive AI Demo">LeadHive AI — Lead Engagement Demo</option>
+                      <option value="NourDoc Demo">NourDoc - Clinical Documentation Demo</option>
+                      <option value="LeadHive AI Demo">LeadHive AI - Lead Engagement Demo</option>
                       <option value="AI Engineering Services">AI &amp; Product Engineering Services</option>
                       <option value="Customer Experience Discovery">Customer Experience &amp; UI/UX Discovery</option>
                       <option value="Risk & Compliance Scoping">Risk, Compliance &amp; POPIA Scoping</option>
