@@ -1,19 +1,11 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
-import { siteConfig } from '../../content/siteData';
 import { 
-  ShieldCheck, 
   Mail, 
   MapPin, 
-  ArrowRight, 
-  ArrowUp,
-  Sparkles,
-  Lock,
-  Workflow,
-  Stethoscope,
-  Zap,
-  Layers,
-  ChevronRight
+  Phone,
+  ArrowUp, 
+  ChevronRight,
+  ShieldCheck
 } from 'lucide-react';
 
 export default function Footer() {
@@ -82,43 +74,6 @@ export default function Footer() {
             <div style={{ fontSize: '0.84rem', color: '#64748B', marginTop: '0.25rem' }}>
               South African operations · Global engineering capability · POPIA compliant
             </div>
-          </div>
-
-          {/* Quick Direct Consultation Pill */}
-          <div 
-            style={{
-              display: 'flex',
-              alignItems: 'center',
-              gap: '1rem',
-              borderBottom: '1px solid var(--color-orange)',
-              padding: '0 0 0.35rem'
-            }}
-          >
-            <div>
-              <div style={{ fontSize: '0.84rem', fontWeight: 700, color: '#FFFFFF' }}>
-                Discuss your project
-              </div>
-              <div style={{ fontSize: '0.74rem', color: '#94A3B8' }}>
-                Direct consultation with our technical architects
-              </div>
-            </div>
-            <Link 
-              to="/contact-us"
-              style={{
-                display: 'inline-flex',
-                alignItems: 'center',
-                gap: '0.4rem',
-                color: '#FFFFFF',
-                fontSize: '0.8rem',
-                fontWeight: 700,
-                padding: '0.5rem 0',
-                textDecoration: 'none',
-                whiteSpace: 'nowrap'
-              }}
-            >
-              <span>Get in touch</span>
-              <ArrowRight size={14} />
-            </Link>
           </div>
         </div>
 
@@ -227,24 +182,42 @@ export default function Footer() {
               </h4>
             </div>
 
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.85rem', fontSize: '0.85rem' }}>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem' }}>
-                <Mail size={15} color="var(--color-orange)" />
-                <a 
-                  href={`mailto:${siteConfig.contact.email}`} 
-                  style={{ color: '#E2E8F0', textDecoration: 'none', transition: 'color 0.2s' }}
-                  onMouseEnter={e => e.currentTarget.style.color = 'var(--color-orange)'}
-                  onMouseLeave={e => e.currentTarget.style.color = '#E2E8F0'}
-                >
-                  {siteConfig.contact.email}
-                </a>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.85rem', fontSize: '0.82rem' }}>
+              <div style={{ display: 'flex', alignItems: 'flex-start', gap: '0.6rem' }}>
+                <MapPin size={15} color="var(--color-orange)" style={{ flexShrink: 0, marginTop: '3px' }} />
+                <span style={{ color: '#E2E8F0', lineHeight: 1.45 }}>
+                  No 1 Paul Kruger Street, Parow Valley, 7500, Cape Town, South Africa
+                </span>
               </div>
 
-              <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem', color: '#E2E8F0' }}>
-                <MapPin size={15} color="var(--color-orange)" />
-                <span>{siteConfig.contact.location} · {siteConfig.region}</span>
-              </div>
+              {/* Direct Representatives */}
+              <div style={{ padding: '0.75rem', backgroundColor: 'rgba(255, 255, 255, 0.04)', borderRadius: '6px', border: '1px solid rgba(255, 255, 255, 0.08)', display: 'flex', flexDirection: 'column', gap: '0.6rem', marginTop: '0.25rem' }}>
+                <div>
+                  <div style={{ color: '#FFFFFF', fontWeight: 700, fontSize: '0.8rem' }}>Belinda Ferreira</div>
+                  <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.75rem', marginTop: '0.2rem' }}>
+                    <a href="tel:+27742123121" style={{ color: '#CBD5E1', textDecoration: 'none', display: 'inline-flex', alignItems: 'center', gap: '0.3rem' }}>
+                      <Phone size={11} color="var(--color-orange)" />
+                      <span>+27 74 212 3121</span>
+                    </a>
+                    <a href="mailto:belinda@katko.co.za" style={{ color: 'var(--color-orange)', textDecoration: 'none' }}>
+                      belinda@katko.co.za
+                    </a>
+                  </div>
+                </div>
 
+                <div style={{ borderTop: '1px solid rgba(255, 255, 255, 0.08)', paddingTop: '0.5rem' }}>
+                  <div style={{ color: '#FFFFFF', fontWeight: 700, fontSize: '0.8rem' }}>Hasnain</div>
+                  <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.75rem', marginTop: '0.2rem' }}>
+                    <a href="tel:+27749734770" style={{ color: '#CBD5E1', textDecoration: 'none', display: 'inline-flex', alignItems: 'center', gap: '0.3rem' }}>
+                      <Phone size={11} color="var(--color-orange)" />
+                      <span>+27 74 973 4770</span>
+                    </a>
+                    <a href="mailto:hasnain@katko.co.za" style={{ color: 'var(--color-orange)', textDecoration: 'none' }}>
+                      hasnain@katko.co.za
+                    </a>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
 

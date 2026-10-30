@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Link, NavLink, useLocation } from 'react-router-dom';
-import { Menu, X, ChevronDown, Sparkles, MessageSquare, ArrowRight, ShieldCheck, PhoneCall } from 'lucide-react';
+import { Menu, X, ChevronDown, ArrowRight } from 'lucide-react';
 import { navigationLinks } from '../../content/siteData';
 import Button from '../ui/Button';
 

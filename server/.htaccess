@@ -1,0 +1,46 @@
+# Apache / LiteSpeed Configuration for Katko Website on cPanel
+# Single-Page Application (React Router) + Protected PHP API
+
+Options -Indexes -MultiViews
+ServerSignature Off
+
+# 1. Protect Hidden Files and Sensitive Extensions
+<FilesMatch "^\.|\.(bak|config|sql|fla|psd|ini|log|sh|inc|swp|dist|example)$">
+    <IfModule mod_authz_core.c>
+        Require all denied
+    </IfModule>
+    <IfModule !mod_authz_core.c>
+        Order allow,deny
+        Deny from all
+    </IfModule>
+</FilesMatch>
+
+# 2. Strict Security Headers
+<IfModule mod_headers.c>
+    Header always set X-Content-Type-Options "nosniff"
+    Header always set X-Frame-Options "SAMEORIGIN"
+    Header always set X-XSS-Protection "1; mode=block"
+    Header always set Referrer-Policy "strict-origin-when-cross-origin"
+</IfModule>
+
+# 3. URL Rewriting for React SPA Routing and API Preservation
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    RewriteBase /
+
+    # Never rewrite requests to the /api directory
+    # Non-existent files in /api should return standard 404, not index.html
+    RewriteRule ^api/ - [L]
+
+    # Serve existing files and directories directly (assets, images, robots.txt, sitemap.xml)
+    RewriteCond %{REQUEST_FILENAME} -f [OR]
+    RewriteCond %{REQUEST_FILENAME} -d
+    RewriteRule ^ - [L]
+
+    # Allow AutoSSL / Let's Encrypt / ACME challenges to pass through
+    RewriteRule ^\.well-known/ - [L]
+
+    # SPA Fallback: Rewrite all remaining HTML/page routes to index.html
+    RewriteRule ^ index.html [L]
+</IfModule>
+

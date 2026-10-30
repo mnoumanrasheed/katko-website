@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { 
   Cpu, 
   Database, 
@@ -7,14 +7,22 @@ import {
   Workflow, 
   ArrowRight, 
   CheckCircle2, 
-  Lock, 
-  Zap, 
-  Layers, 
   SlidersHorizontal 
 } from 'lucide-react';
 
 export default function AIServicesArchitectureVisual({ compact = false, theme = 'light' }) {
   const [activeTier, setActiveTier] = useState(1); // 0, 1, 2, 3
+  const [isPaused, setIsPaused] = useState(false);
+
+  useEffect(() => {
+    if (isPaused) return;
+
+    const interval = setInterval(() => {
+      setActiveTier((prevTier) => (prevTier + 1) % 4);
+    }, 7000);
+
+    return () => clearInterval(interval);
+  }, [isPaused]);
 
   const isLight = theme === 'light';
 
@@ -47,6 +55,8 @@ export default function AIServicesArchitectureVisual({ compact = false, theme = 
 
   return (
     <div 
+      onMouseEnter={() => setIsPaused(true)}
+      onMouseLeave={() => setIsPaused(false)}
       style={{
         backgroundColor: isLight ? '#FFFFFF' : 'var(--color-charcoal-deep)',
         borderRadius: 'var(--radius-xl)',

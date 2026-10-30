@@ -11,9 +11,23 @@ export const siteConfig = {
   region: 'South Africa & International',
   contact: {
     email: 'info@katko.co.za',
-    phoneNote: 'Enquiries handled via online consultation request',
+    phoneNote: 'Direct phone & email consultations',
     location: 'South Africa',
-    hours: 'Monday – Friday, 08:30 – 17:00 SAST'
+    address: 'No 1 Paul Kruger Street, Parow Valley, 7500, Cape Town, South Africa',
+    representatives: [
+      {
+        name: 'Belinda Ferreira',
+        role: 'Consultation & Client Services',
+        phone: '+27 74 212 3121',
+        email: 'belinda@katko.co.za'
+      },
+      {
+        name: 'Hasnain',
+        role: 'Technical Architecture & Operations',
+        phone: '+27 74 973 4770',
+        email: 'hasnain@katko.co.za'
+      }
+    ]
   }
 };
 

@@ -67,3 +67,8 @@ Thumbs.db
 *.tmp
 *.temp
 
+
+# cPanel Release
+cpanel-release/
+katko-cpanel-release.zip
+katko-config.php

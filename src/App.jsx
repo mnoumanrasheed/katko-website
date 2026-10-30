@@ -1,6 +1,7 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import ScrollToTop from './components/layout/ScrollToTop';
+import PremiumPreloader from './components/ui/PremiumPreloader';
 
 // Pages
 import Home from './pages/Home';
@@ -19,6 +20,7 @@ import NotFound from './pages/NotFound';
 export default function App() {
   return (
     <Router>
+      <PremiumPreloader />
       <ScrollToTop />
       <Routes>
         {/* Primary Nine Pages */}

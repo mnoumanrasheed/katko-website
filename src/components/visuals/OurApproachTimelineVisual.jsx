@@ -1,14 +1,35 @@
-import React, { useState } from 'react';
-import { ourApproachStages } from '../../content/siteData';
-import { CheckCircle2, ArrowRight, Layers, Cpu, Search, Target, Layout, Rocket } from 'lucide-react';
+import React, { useState, useEffect } from 'react';
+import { 
+  Layers, 
+  Cpu, 
+  Search, 
+  Target, 
+  Layout, 
+  Rocket 
+} from 'lucide-react';
 
 export default function OurApproachTimelineVisual() {
   const [activeStageIndex, setActiveStageIndex] = useState(0);
+  const [isPaused, setIsPaused] = useState(false);
+
+  useEffect(() => {
+    if (isPaused) return;
+
+    const interval = setInterval(() => {
+      setActiveStageIndex((prev) => (prev + 1) % 6);
+    }, 6000);
+
+    return () => clearInterval(interval);
+  }, [isPaused]);
 
   const stageIcons = [Search, Target, Layout, Cpu, CheckCircle2, Rocket];
 
   return (
-    <div style={{ width: '100%' }}>
+    <div 
+      style={{ width: '100%' }}
+      onMouseEnter={() => setIsPaused(true)}
+      onMouseLeave={() => setIsPaused(false)}
+    >
       {/* Desktop Horizontal Stepper Bar */}
       <div className="approach-desktop-stepper" style={{ marginBottom: '2.5rem' }}>
         <div 
