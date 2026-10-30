@@ -5,7 +5,6 @@ import {
   ShieldCheck, 
   Mail, 
   MapPin, 
-  Clock, 
   ArrowRight, 
   ArrowUp,
   Sparkles,
@@ -244,11 +243,6 @@ export default function Footer() {
               <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem', color: '#E2E8F0' }}>
                 <MapPin size={15} color="var(--color-orange)" />
                 <span>{siteConfig.contact.location} · {siteConfig.region}</span>
-              </div>
-
-              <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem', color: '#94A3B8', fontSize: '0.78rem' }}>
-                <Clock size={15} color="var(--color-amber)" />
-                <span>{siteConfig.contact.hours}</span>
               </div>
 
             </div>

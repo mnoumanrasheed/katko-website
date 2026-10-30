@@ -8,7 +8,6 @@ import { siteConfig } from '../content/siteData';
 import { 
   Mail, 
   MapPin, 
-  Clock, 
   Send, 
   CheckCircle2, 
   AlertCircle, 
@@ -194,20 +193,6 @@ export default function ContactUs() {
                       </div>
                       <div style={{ fontSize: '0.95rem', color: 'var(--color-charcoal)', marginTop: '0.15rem' }}>
                         South Africa · Available for regional and international engagements
-                      </div>
-                    </div>
-                  </div>
-
-                  <div style={{ display: 'flex', alignItems: 'flex-start', gap: '0.75rem' }}>
-                    <div style={{ width: 36, height: 36, borderRadius: 'var(--radius-sm)', backgroundColor: 'var(--color-white)', border: '1px solid var(--color-border)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
-                      <Clock size={18} color="var(--color-charcoal)" />
-                    </div>
-                    <div>
-                      <div style={{ fontSize: '0.75rem', fontWeight: 700, color: 'var(--text-muted)', textTransform: 'uppercase' }}>
-                        Business Hours
-                      </div>
-                      <div style={{ fontSize: '0.95rem', color: 'var(--color-charcoal)', marginTop: '0.15rem' }}>
-                        {siteConfig.contact.hours}
                       </div>
                     </div>
                   </div>
