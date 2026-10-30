@@ -10,3 +10,13 @@ ReactDOM.createRoot(document.getElementById('root')).render(
     <App />
   </React.StrictMode>
 );
+
+// Dismiss the HTML preloader after React mounts
+setTimeout(() => {
+  const el = document.getElementById('katko-preloader');
+  if (el) {
+    el.style.opacity = '0';
+    el.style.pointerEvents = 'none';
+    setTimeout(() => el.remove(), 700);
+  }
+}, 1200);

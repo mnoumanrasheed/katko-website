@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from 'react';
+import { ourApproachStages } from '../../content/siteData';
 import { 
   Layers, 
   Cpu, 
   Search, 
   Target, 
   Layout, 
-  Rocket 
+  Rocket,
+  CheckCircle2 
 } from 'lucide-react';
 
 export default function OurApproachTimelineVisual() {
