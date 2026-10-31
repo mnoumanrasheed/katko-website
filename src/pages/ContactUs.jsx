@@ -31,7 +31,6 @@ export default function ContactUs() {
     organisation: '',
     enquiryType: '',
     message: '',
-    privacyConsent: false,
     website: '' // Honeypot field - must remain empty
   });
 
@@ -137,9 +136,6 @@ export default function ContactUs() {
     if (!formData.message.trim() || formData.message.trim().length < 10) {
       newErrors.message = 'Please provide project details (at least 10 characters).';
     }
-    if (!formData.privacyConsent) {
-      newErrors.privacyConsent = 'You must acknowledge the privacy notice to proceed.';
-    }
     if (!recaptchaToken) {
       newErrors.recaptcha = 'Please check the "I\'m not a robot" box before submitting.';
     }
@@ -190,7 +186,9 @@ export default function ContactUs() {
 
     setIsSubmitting(true);
     const controller = new AbortController();
-    const timeoutId = setTimeout(() => controller.abort(), 15000);
+    // reCAPTCHA verification and Resend delivery are two server-to-server calls.
+    // Shared cPanel hosts can take longer than 15 seconds to complete both.
+    const timeoutId = setTimeout(() => controller.abort(), 30000);
 
     try {
       const response = await fetch('/api/contact.php', {
@@ -206,7 +204,6 @@ export default function ContactUs() {
           organisation: formData.organisation.trim(),
           enquiryType: formData.enquiryType,
           message: formData.message.trim(),
-          privacyConsent: formData.privacyConsent,
           recaptchaToken: recaptchaToken,
           csrfToken: publicConfig.csrfToken,
           website: formData.website // Honeypot
@@ -225,7 +222,6 @@ export default function ContactUs() {
           organisation: '',
           enquiryType: '',
           message: '',
-          privacyConsent: false,
           website: ''
         });
         resetRecaptcha();
@@ -299,13 +295,10 @@ export default function ContactUs() {
                   marginBottom: '2rem'
                 }}
               >
-                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '1.25rem', flexWrap: 'wrap', gap: '0.5rem' }}>
+                <div style={{ marginBottom: '1.25rem' }}>
                   <h3 style={{ fontSize: '1.25rem', color: 'var(--color-charcoal)', margin: 0 }}>
                     Verified Contact Details
                   </h3>
-                  <span style={{ fontSize: '0.72rem', fontWeight: 700, padding: '0.15rem 0.55rem', borderRadius: 'var(--radius-full)', backgroundColor: '#ECFDF5', color: '#059669', border: '1px solid #A7F3D0' }}>
-                    Available Mon–Fri
-                  </span>
                 </div>
 
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem', marginBottom: '1.75rem' }}>
@@ -624,26 +617,6 @@ export default function ContactUs() {
                       aria-describedby={errors.message ? 'message-error' : undefined}
                     />
                     {errors.message && <span id="message-error" className="form-error">{errors.message}</span>}
-                    <div style={{ fontSize: '0.74rem', color: 'var(--text-muted)', marginTop: '0.35rem' }}>
-                      Please do not include sensitive patient health records or confidential personal health identifiers in message bodies.
-                    </div>
-                  </div>
-
-                  {/* Privacy Consent Checkbox */}
-                  <div style={{ marginBottom: '1.25rem' }}>
-                    <label style={{ display: 'flex', alignItems: 'flex-start', gap: '0.6rem', cursor: 'pointer', fontSize: '0.84rem', color: 'var(--text-secondary)' }}>
-                      <input
-                        type="checkbox"
-                        name="privacyConsent"
-                        checked={formData.privacyConsent}
-                        onChange={handleChange}
-                        style={{ marginTop: '3px', accentColor: 'var(--color-orange)' }}
-                      />
-                      <span>
-                        I consent to Katko processing my provided details solely for the purpose of responding to this enquiry in alignment with POPIA principles.
-                      </span>
-                    </label>
-                    {errors.privacyConsent && <div className="form-error" style={{ marginTop: '0.25rem' }}>{errors.privacyConsent}</div>}
                   </div>
 
                   {/* Visible Google reCAPTCHA v2 Checkbox ("I'm not a robot") */}

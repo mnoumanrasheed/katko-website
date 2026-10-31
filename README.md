@@ -134,7 +134,14 @@ The contact form on `/contact-us` includes:
 - Client-side validation for full name, business email format, enquiry type selection, minimum message length, and mandatory POPIA privacy consent.
 - Direct URL pre-selection: Passing `?enquiry=nourdoc`, `?enquiry=leadhive`, etc. automatically selects the appropriate topic.
 - Honest submission feedback: Displays a confirmed submission summary with an immediate direct mailto fallback.
-- **Production Mail Delivery Setup**: To connect live form submissions to an automated email service or CRM webhook, configure an API endpoint (e.g. Next.js API route, Cloudflare Worker, or AWS Lambda) using environment variables (e.g., SendGrid, Postmark, Resend).
+- **Production Mail Delivery Setup**: The included cPanel PHP endpoint sends enquiries to `info@katko.co.za` through the Resend API. Its private Resend, reCAPTCHA v2, and mail settings are read from `katko-config.php` outside `public_html`; see the cPanel instructions below.
+
+### cPanel deployment
+
+1. Run `npm run build:cpanel`. Upload the contents of `cpanel-release/public_html/` to your cPanel `public_html/` directory.
+2. In cPanel File Manager, copy `cpanel-release/private-config/katko-config.php.example` to your cPanel home directory (the folder above `public_html`) and rename it to `katko-config.php`.
+3. In `katko-config.php`, add the **Resend API key** plus the **Google reCAPTCHA v2 Checkbox** site and secret keys. Keep `'to_email' => 'info@katko.co.za'`, and use a Resend-verified address as `'from_email'`. Do not put this file or its keys inside `public_html`.
+4. Send a test form submission. If delivery fails, confirm that cURL is enabled in cPanel PHP Selector and that the Resend domain/sender is verified.
 
 ---
 

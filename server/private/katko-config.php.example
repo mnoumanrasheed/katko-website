@@ -1,50 +1,37 @@
 <?php
 /**
- * Katko Private Configuration Template
- * 
- * IMPORTANT FOR DEPLOYMENT:
- * 1. Upload this file to cPanel OUTSIDE the public_html web root:
- *    e.g. /home/CPANEL_USERNAME/katko-config.php
- * 2. Rename from katko-config.php.example to katko-config.php
- * 3. Replace the placeholder values below with your real credentials:
- *    - resend_api_key (from resend.com)
- *    - recaptcha_site_key (from google.com/recaptcha/admin -> v2 Checkbox)
- *    - recaptcha_secret_key (from google.com/recaptcha/admin -> v2 Checkbox)
- * 4. Set file permissions to 600 (read/write by owner only).
- * 
- * NEVER put this file inside public_html or commit it to Git.
+ * Private Katko contact-form configuration.
+ *
+ * cPanel: copy this file to /home/CPANEL_USERNAME/katko-config.php,
+ * outside public_html, then replace the placeholders. Set permissions to 600.
+ * Never upload this file into public_html or commit a real-key version to Git.
  */
 
 return [
-    // Resend REST API Key (starts with re_...)
-    'resend_api_key'        => 'PASTE_RESEND_API_KEY_HERE',
+    // Resend API key (starts with re_...).
+    'resend_api_key' => 'PASTE_RESEND_API_KEY_HERE',
 
-    // Google reCAPTCHA v2 Checkbox Keys ("I'm not a robot")
-    // Note: Must be classic v2 Checkbox keys, NOT v3 and NOT invisible v2.
+    // Google reCAPTCHA classic v2 Checkbox keys (not v3 or invisible v2).
     'recaptcha_site_key'   => 'PASTE_RECAPTCHA_V2_SITE_KEY_HERE',
     'recaptcha_secret_key' => 'PASTE_RECAPTCHA_V2_SECRET_KEY_HERE',
 
-    // Email Sending Settings
-    // from_email must be from a verified domain in your Resend account.
-    'from_email'           => 'noreply@katko.co.za',
-    'from_name'            => 'Katko Website',
+    // Resend email settings. The recipient receives all website enquiries.
+    // from_email must be verified in your Resend account.
+    'to_email'   => 'info@katko.co.za',
+    'from_email' => 'info@katko.co.za',
+    'from_name'  => 'Katko Website',
 
-    // Fixed recipient for incoming enquiries
-    'to_email'             => 'info@katko.co.za',
-
-    // Security: Allowed Hostnames & Origins (Same-Origin cPanel Delivery)
-    // Add any subdomains or staging domains here if applicable.
-    'allowed_hostnames'    => [
+    // Comma-free lists of approved domains and browser origins.
+    'allowed_hostnames' => [
         'katko.co.za',
-        'www.katko.co.za'
+        'www.katko.co.za',
     ],
-    'allowed_origins'      => [
+    'allowed_origins' => [
         'https://katko.co.za',
-        'https://www.katko.co.za'
+        'https://www.katko.co.za',
     ],
 
-    // Rate Limiting (Fixed window per IP)
-    'rate_limit_max'       => 5,    // Maximum 5 submissions
-    'rate_limit_window_s'  => 3600, // per 3600 seconds (1 hour)
+    // Maximum enquiries per IP during this period.
+    'rate_limit_max'      => 5,
+    'rate_limit_window_s' => 3600,
 ];
-

@@ -95,9 +95,9 @@ fs.writeFileSync(
   path.join(STAGED_PRIVATE, 'DO_NOT_UPLOAD_TO_PUBLIC_HTML.txt'),
   `CRITICAL INSTRUCTION:\n` +
   `1. Copy 'katko-config.php.example' to your cPanel HOME directory (e.g. /home/CPANEL_USERNAME/katko-config.php).\n` +
-  `2. Rename it to 'katko-config.php'.\n` +
-  `3. Enter your Resend and reCAPTCHA credentials.\n` +
-  `4. DO NOT upload this file into public_html.\n`
+  `2. Rename it to 'katko-config.php' and enter your reCAPTCHA v2 keys.\n` +
+  `3. Do not upload it into public_html: it contains the secret key.\n` +
+  `4. Add your Resend API key, reCAPTCHA v2 keys, and verified Resend sender email.\n`
 );
 
 // 5. Generate ZIP package

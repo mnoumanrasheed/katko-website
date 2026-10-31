@@ -5,7 +5,7 @@
  * Delivers public configuration (reCAPTCHA v2 site key and CSRF token)
  * to the frontend at runtime.
  * 
- * NEVER echoes Resend API keys, reCAPTCHA secret keys, or filesystem paths.
+ * NEVER echoes private configuration values, the reCAPTCHA secret key, or filesystem paths.
  */
 
 declare(strict_types=1);
@@ -33,21 +33,11 @@ if ($_SERVER['REQUEST_METHOD'] !== 'GET') {
     exit;
 }
 
-// -----------------------------------------------------------------------------
-// Resolve and Validate Private Configuration
-// -----------------------------------------------------------------------------
-$configPath = getenv('KATKO_CONFIG_PATH');
-
-if (!$configPath || !is_string($configPath)) {
-    // Default standard cPanel structure:
-    // /home/USERNAME/public_html/api/public-config.php -> /home/USERNAME/katko-config.php
-    $configPath = dirname(__DIR__, 2) . '/katko-config.php';
-}
-
-$realConfigPath = realpath($configPath);
-
-// Ensure file exists and is readable
-if (!$realConfigPath || !is_file($realConfigPath) || !is_readable($realConfigPath)) {
+// Load private configuration from the cPanel account home directory.
+require_once __DIR__ . '/bootstrap.php';
+try {
+    $config = katko_load_config();
+} catch (RuntimeException $exception) {
     http_response_code(503);
     echo json_encode([
         'success' => false,
@@ -57,34 +47,7 @@ if (!$realConfigPath || !is_file($realConfigPath) || !is_readable($realConfigPat
     exit;
 }
 
-// Safety check: ensure config is physically outside web document root if DOCUMENT_ROOT is set
-if (!empty($_SERVER['DOCUMENT_ROOT'])) {
-    $realDocRoot = realpath($_SERVER['DOCUMENT_ROOT']);
-    if ($realDocRoot && str_starts_with($realConfigPath, $realDocRoot)) {
-        http_response_code(500);
-        echo json_encode([
-            'success' => false,
-            'code'    => 'INSECURE_CONFIGURATION',
-            'message' => 'Configuration location is insecure.'
-        ], JSON_UNESCAPED_SLASHES);
-        exit;
-    }
-}
-
-// Load config array
-$config = require $realConfigPath;
-
-if (!is_array($config)) {
-    http_response_code(503);
-    echo json_encode([
-        'success' => false,
-        'code'    => 'INVALID_CONFIG',
-        'message' => 'Configuration structure is invalid.'
-    ], JSON_UNESCAPED_SLASHES);
-    exit;
-}
-
-$siteKey = $config['recaptcha_site_key'] ?? '';
+$siteKey = trim((string)($config['recaptcha_site_key'] ?? ''));
 
 // Check if keys are still default placeholders
 if (empty($siteKey) || str_contains($siteKey, 'PASTE_') || $siteKey === 'PASTE_RECAPTCHA_V2_SITE_KEY_HERE') {

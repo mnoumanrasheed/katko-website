@@ -3,7 +3,7 @@
  * /api/contact.php — Katko Secure Contact Form Endpoint
  * 
  * Verifies request origin, CSRF, honeypot, rate limits, and Google reCAPTCHA v2 Checkbox,
- * then dispatches email via Resend REST API using cURL.
+ * then dispatches email through the Resend API.
  */
 
 declare(strict_types=1);
@@ -58,41 +58,27 @@ if (!is_array($data)) {
     send_json_response(400, false, 'INVALID_JSON', 'Malformed JSON payload.');
 }
 
-// 4. Load Private Configuration
-$configPath = getenv('KATKO_CONFIG_PATH');
-if (!$configPath || !is_string($configPath)) {
-    $configPath = dirname(__DIR__, 2) . '/katko-config.php';
-}
-
-$realConfigPath = realpath($configPath);
-if (!$realConfigPath || !is_file($realConfigPath) || !is_readable($realConfigPath)) {
+// 4. Load private cPanel configuration.
+require_once __DIR__ . '/bootstrap.php';
+try {
+    $config = katko_load_config();
+} catch (RuntimeException $exception) {
     send_json_response(503, false, 'SERVICE_UNAVAILABLE', 'Backend configuration is unavailable.');
 }
 
-if (!empty($_SERVER['DOCUMENT_ROOT'])) {
-    $realDocRoot = realpath($_SERVER['DOCUMENT_ROOT']);
-    if ($realDocRoot && str_starts_with($realConfigPath, $realDocRoot)) {
-        send_json_response(500, false, 'CONFIG_ERROR', 'Security boundary violation detected.');
-    }
-}
-
-$config = require $realConfigPath;
-if (!is_array($config)) {
-    send_json_response(503, false, 'CONFIG_ERROR', 'Service configuration error.');
-}
-
-$resendApiKey      = $config['resend_api_key'] ?? '';
-$recaptchaSecret   = $config['recaptcha_secret_key'] ?? '';
-$fromEmail         = $config['from_email'] ?? 'noreply@katko.co.za';
-$fromName          = $config['from_name'] ?? 'Katko Website';
-$toEmail           = $config['to_email'] ?? 'info@katko.co.za';
-$allowedHostnames  = $config['allowed_hostnames'] ?? ['katko.co.za', 'www.katko.co.za'];
-$allowedOrigins    = $config['allowed_origins'] ?? ['https://katko.co.za', 'https://www.katko.co.za'];
-$rateLimitMax      = (int)($config['rate_limit_max'] ?? 5);
-$rateLimitWindow   = (int)($config['rate_limit_window_s'] ?? 3600);
+$resendApiKey      = trim((string)($config['resend_api_key'] ?? ''));
+$recaptchaSecret   = trim((string)($config['recaptcha_secret_key'] ?? ''));
+$fromEmail         = trim((string)($config['from_email'] ?? 'info@katko.co.za'));
+$fromName          = trim((string)($config['from_name'] ?? 'Katko Website'));
+$toEmail           = trim((string)($config['to_email'] ?? 'info@katko.co.za'));
+$allowedHostnames  = is_array($config['allowed_hostnames'] ?? null) ? $config['allowed_hostnames'] : ['katko.co.za', 'www.katko.co.za'];
+$allowedOrigins    = is_array($config['allowed_origins'] ?? null) ? $config['allowed_origins'] : ['https://katko.co.za', 'https://www.katko.co.za'];
+$rateLimitMax      = max(1, (int)($config['rate_limit_max'] ?? 5));
+$rateLimitWindow   = max(60, (int)($config['rate_limit_window_s'] ?? 3600));
 
 if (empty($resendApiKey) || str_contains($resendApiKey, 'PASTE_') ||
-    empty($recaptchaSecret) || str_contains($recaptchaSecret, 'PASTE_')) {
+    empty($recaptchaSecret) || str_contains($recaptchaSecret, 'PASTE_') ||
+    !filter_var($fromEmail, FILTER_VALIDATE_EMAIL) || !filter_var($toEmail, FILTER_VALIDATE_EMAIL)) {
     send_json_response(503, false, 'CONFIG_PENDING', 'Email service configuration is pending completion.');
 }
 
@@ -163,13 +149,7 @@ if (!empty($honeypot)) {
     send_json_response(200, true, 'ENQUIRY_RECEIVED', 'Your enquiry has been submitted successfully.');
 }
 
-// 8. Privacy Consent check
-$privacyConsent = $data['privacyConsent'] ?? false;
-if ($privacyConsent !== true) {
-    send_json_response(422, false, 'CONSENT_REQUIRED', 'You must acknowledge the privacy notice to proceed.');
-}
-
-// 9. Input Sanitization & Validation
+// 8. Input Sanitization & Validation
 $fullName     = trim((string)($data['fullName'] ?? ''));
 $email        = trim((string)($data['email'] ?? ''));
 $organisation = trim((string)($data['organisation'] ?? ''));
@@ -220,8 +200,8 @@ if (!empty($errors)) {
 $clientIp = $_SERVER['REMOTE_ADDR'] ?? 'unknown';
 $ipHash = hash('sha256', $clientIp . 'katko_salt_2026');
 
-// Location for rate limit storage (default to alongside config outside document root)
-$rateLimitDir = dirname($realConfigPath) . '/katko-rate-limit';
+// Location for rate limit storage (alongside private config, outside document root)
+$rateLimitDir = katko_private_directory() . '/katko-rate-limit';
 if (!is_dir($rateLimitDir)) {
     @mkdir($rateLimitDir, 0700, true);
 }
@@ -313,7 +293,7 @@ if (!empty($captchaHostname)) {
     }
 }
 
-// 12. Build Email Payload for Resend
+// 12. Build the enquiry email.
 $safeFullName     = htmlspecialchars($fullName, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');
 $safeEmail        = htmlspecialchars($email, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');
 $safeOrg          = htmlspecialchars($organisation ?: 'Not specified', ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');
@@ -380,17 +360,20 @@ $textBody = "New Enquiry from Katko Website ({$currentDateUtc})\n\n"
     . "Project Details / Message:\n{$message}\n\n"
     . "---\nSubmitted via Katko.co.za contact form. Reply directly to this email.";
 
-// 13. Dispatch Email via Resend REST API (cURL)
+// 13. Dispatch email via Resend REST API.
 $resendPayload = [
     'from'     => "{$fromName} <{$fromEmail}>",
     'to'       => [$toEmail],
     'reply_to' => $email,
     'subject'  => $emailSubject,
     'html'     => $htmlBody,
-    'text'     => $textBody
+    'text'     => $textBody,
 ];
 
 $resendJson = json_encode($resendPayload, JSON_UNESCAPED_SLASHES);
+if ($resendJson === false) {
+    send_json_response(500, false, 'EMAIL_PAYLOAD_FAILED', 'Unable to prepare the enquiry email.');
+}
 
 $resendCh = curl_init();
 curl_setopt_array($resendCh, [
@@ -405,8 +388,8 @@ curl_setopt_array($resendCh, [
     CURLOPT_HTTPHEADER     => [
         'Authorization: Bearer ' . $resendApiKey,
         'Content-Type: application/json',
-        'User-Agent: Katko-Website-cPanel/1.0'
-    ]
+        'User-Agent: Katko-Website-cPanel/1.0',
+    ],
 ]);
 
 $resendResponse = curl_exec($resendCh);
@@ -415,15 +398,14 @@ $resendErrno    = curl_errno($resendCh);
 curl_close($resendCh);
 
 if ($resendErrno !== 0 || !$resendResponse) {
-    send_json_response(502, false, 'EMAIL_GATEWAY_TIMEOUT', 'Unable to dispatch email through the delivery gateway. Please try again or email us directly.');
+    send_json_response(502, false, 'EMAIL_GATEWAY_TIMEOUT', 'Unable to dispatch email through the delivery service. Please try again or email us directly.');
 }
 
 $resendResult = json_decode((string)$resendResponse, true);
-
 if ($resendHttpCode >= 200 && $resendHttpCode < 300 && !empty($resendResult['id'])) {
     send_json_response(200, true, 'SUBMIT_SUCCESS', 'Thank you. Your enquiry has been submitted successfully.');
 } else {
-    // Log non-sensitive reference for debugging if needed, but do not leak keys/payload to visitor
+    error_log('Katko contact form: Resend delivery failed with HTTP status ' . $resendHttpCode . '.');
     send_json_response(500, false, 'DELIVERY_FAILED', 'We could not submit your enquiry at this time. Please try again or email us directly at ' . $toEmail);
 }
 
